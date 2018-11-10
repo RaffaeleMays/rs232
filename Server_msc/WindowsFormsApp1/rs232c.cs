@@ -36,6 +36,6 @@ namespace WindowsFormsApp1
                 MyObject.Open();
         }
 
-
+        
     }
 }

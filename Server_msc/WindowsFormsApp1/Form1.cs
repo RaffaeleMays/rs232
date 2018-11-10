@@ -20,10 +20,14 @@ namespace WindowsFormsApp1
         public Color StatoSuspendYellow = Color.Yellow;
         #endregion  
 
-        public static bool StatusServer;
+        private static bool StatusServer;
         private Myrs232c myRs232;
-        public static string[] arrInterrogazioni = new string[] { };
-        public static int k = 0;
+        private static string[] arrInterrogazioni = new string[] { };
+        private static int k = 0;
+        private Database DbIsii = new Database("ISII");
+        private Database DbTramello = new Database("Tramello");
+        List<Database> ElencoDB;
+        
 
         public frmMainServer()
         {
@@ -33,10 +37,12 @@ namespace WindowsFormsApp1
         private void frmMainServer_Load(object sender, EventArgs e)
         {
             myRs232 = new Myrs232c();
-
+            ElencoDB = new List<Database>();
+            ElencoDB.Add(DbIsii);
+            ElencoDB.Add(DbTramello);
             PanelStatus.BackColor = StatoDownRed;
             StatusServer = false;
-            
+
         }
 
         private void btnAvvia_Click(object sender, EventArgs e)
@@ -44,8 +50,8 @@ namespace WindowsFormsApp1
             PanelStatus.BackColor = StatoUpGreen;
             StatusServer = true;
             tmrSuspend.Stop();
-            
-            
+
+
         }
 
         private void btnSospendi_Click(object sender, EventArgs e)
@@ -53,8 +59,8 @@ namespace WindowsFormsApp1
             PanelStatus.BackColor = StatoSuspendYellow;
             StatusServer = false;
             tmrSuspend.Start();
-            
-            
+
+
         }
 
         private void btnRispristino_Click(object sender, EventArgs e)
@@ -74,19 +80,38 @@ namespace WindowsFormsApp1
                     arrInterrogazioni[i] = srlPort1.ReadLine(); // Memorizzo ogni riga all'interno di ogni indice dell'array cosi è molto più semplice eseguire i risultati e fare il match (select from) con le singole righe
                 }
             }
-            
+
         }
 
         private void tmrSuspend_Tick(object sender, EventArgs e)
         {
             k++;
-            txtCronologia.Text = k.ToString();
+            //txtCronologia.Text = k.ToString();
+            lblCountDown.Text = k.ToString();
             if (k == (120))
             {
                 PanelStatus.BackColor = StatoDownRed;
                 MessageBox.Show("Il server ha superato 2 min di pausa quindi è down", "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 tmrSuspend.Stop();
             }
+        }
+
+        public static void ExecuteQuery()
+        {
+            string[] parametro;
+            foreach(string inter in arrInterrogazioni)
+            {
+                parametro = inter.Split(' ');
+                if(parametro[0] == "ISII")
+                    
+
+            }
+
+        }
+
+        public static void Filtro()
+        {
+
         }
     }
 }
