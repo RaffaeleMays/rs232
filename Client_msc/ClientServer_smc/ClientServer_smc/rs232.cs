@@ -8,7 +8,8 @@ using System.IO.Ports;
 namespace ClientServer_smc {
     class MyRs232 : SerialPort {
         public MyRs232() {
-            PortName = "COM" + (SerialPort.GetPortNames().Length - 1).ToString();
+
+            PortName = ( SerialPort.GetPortNames()[SerialPort.GetPortNames().Length - 1]);
             BaudRate = 9600;
             Parity = Parity.None;
             DataBits = 8;

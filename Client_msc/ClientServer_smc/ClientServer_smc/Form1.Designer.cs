@@ -34,6 +34,9 @@
             this.srlPort1 = new System.IO.Ports.SerialPort(this.components);
             this.btnClear = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtResult = new System.Windows.Forms.TextBox();
+            this.lblResult = new System.Windows.Forms.Label();
+            this.tmrResult = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // txtQuery
@@ -79,11 +82,36 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Insert Query";
             // 
+            // txtResult
+            // 
+            this.txtResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtResult.Location = new System.Drawing.Point(12, 337);
+            this.txtResult.Multiline = true;
+            this.txtResult.Name = "txtResult";
+            this.txtResult.Size = new System.Drawing.Size(460, 131);
+            this.txtResult.TabIndex = 5;
+            // 
+            // lblResult
+            // 
+            this.lblResult.AutoSize = true;
+            this.lblResult.Font = new System.Drawing.Font("Microsoft YaHei", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblResult.Location = new System.Drawing.Point(12, 299);
+            this.lblResult.Name = "lblResult";
+            this.lblResult.Size = new System.Drawing.Size(129, 25);
+            this.lblResult.TabIndex = 6;
+            this.lblResult.Text = "Result Query";
+            // 
+            // tmrResult
+            // 
+            this.tmrResult.Tick += new System.EventHandler(this.tmrResult_Tick);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 287);
+            this.ClientSize = new System.Drawing.Size(484, 498);
+            this.Controls.Add(this.lblResult);
+            this.Controls.Add(this.txtResult);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnQuery);
@@ -103,6 +131,9 @@
         private System.IO.Ports.SerialPort srlPort1;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtResult;
+        private System.Windows.Forms.Label lblResult;
+        private System.Windows.Forms.Timer tmrResult;
     }
 }
 

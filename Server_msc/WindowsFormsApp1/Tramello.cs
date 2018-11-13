@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    class Tramello : Database
-    {
+    //class Tramello : Database
+    //{
 
         //public static string[] DB_InsegnantiTramello = new string[] { };
         //public static string[] DB_AllieviTramello = new string[] { };
@@ -24,7 +24,7 @@ namespace WindowsFormsApp1
         //    DB_AllieviTramello[1] = " Federico Blu 3324964449";
         //    DB_AllieviTramello[2] = " Pio Bianchi 3332366889";
         //}
-    }
+    //}
 
 
 }

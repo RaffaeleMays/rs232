@@ -7,11 +7,14 @@ using System.IO.Ports;
 
 namespace WindowsFormsApp1
 {
-    class Myrs232c : SerialPort
+    public class Myrs232c : SerialPort
     {
         public Myrs232c()
         {
-            PortName = "COM" + (SerialPort.GetPortNames().Length - 1).ToString();
+            string[] port = 
+            SerialPort.GetPortNames();
+            string porta=SerialPort.GetPortNames()[SerialPort.GetPortNames().Length -1];
+            PortName = porta;
             BaudRate = 9600;
             Parity = Parity.None;
             DataBits = 8;

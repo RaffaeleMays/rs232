@@ -26,13 +26,12 @@ namespace ClientServer_smc
         private void frmMain_Load(object sender, EventArgs e)
         {
             myRs232 = new MyRs232();
-
+            myRs232.Open();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             txtQuery.Clear();
-
 
         }
 
@@ -41,27 +40,29 @@ namespace ClientServer_smc
         {
 
             string query = txtQuery.Text;
-            // QUI SOTTO VA SERIALIZZATO (trasformare una classe in json) IL MESSAGGIO IN JSON
-            //query = JsonConvert.SerializeObject();
-            string queryJASON = JsonConvert.SerializeObject(query);
 
+            myRs232.WriteLine(query);
 
-            //myRs232.Write(result);
-
-
-
-            //myRs232.DtrEnable = true; non importante
+            txtResult.Clear();
+            tmrResult.Start();
         }
 
 
         private void srlPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             // QUI SI DESERIALIZZA (trasformare il json in una classe) IL MESSAGGIO RICEVUTO
-            
+
             //object ritorno = JsonConvert.DeserializeObject(/*Inserire la stringa di tipo json vedi sopra es.queryJSON*/);
             //txtQuery.Text = (string)ritorno;
 
         }
-        
+
+        private void tmrResult_Tick(object sender, EventArgs e)
+        {
+            if (myRs232.BytesToRead > 0)
+            {
+                txtResult.Text += myRs232.ReadExisting().ToString();
+            }
+        }
     }
 }
