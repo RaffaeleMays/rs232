@@ -11,10 +11,10 @@ namespace WindowsFormsApp1
     {
         public MyRs232c()
         {
-            string[] port = 
-            SerialPort.GetPortNames();
-            string porta=SerialPort.GetPortNames()[SerialPort.GetPortNames().Length -1];
-            PortName = porta;
+            //string[] port = 
+            //SerialPort.GetPortNames();
+            string porta=SerialPort.GetPortNames()[0];
+            PortName = SerialPort.GetPortNames()[SerialPort.GetPortNames().Length -1];
             BaudRate = 9600;
             Parity = Parity.None;
             DataBits = 8;

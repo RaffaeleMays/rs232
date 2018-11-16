@@ -42,6 +42,8 @@ namespace WindowsFormsApp1
 
             // *******************************
 
+            Tables = new List<DataTable>();
+
             // Allievi
             DataTable tabA = new DataTable("Allievi");
             tabA.Columns.Add("Nome", typeof(string));
@@ -59,14 +61,14 @@ namespace WindowsFormsApp1
             tabI.Columns.Add("Cognome", typeof(string));
             tabI.Columns.Add("Numero", typeof(string));
 
-            tabA.Rows.Add("Mattia", "Grigi", "3329045579");
-            tabA.Rows.Add("Gandolfo", "Blu", "3324966819");
-            tabA.Rows.Add("Elia", "Bianchi", "3336368889");            
+            tabI.Rows.Add("Mattia", "Grigi", "3329045579");
+            tabI.Rows.Add("Gandolfo", "Blu", "3324966819");
+            tabI.Rows.Add("Elia", "Bianchi", "3336368889");            
 
             Tables.Add(tabA);
             Tables.Add(tabI);
 
-
+            NameDB = name;
 
             #region Comments
             //db_Insegnanti = new string[,] { };

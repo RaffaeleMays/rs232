@@ -151,12 +151,12 @@ namespace WindowsFormsApp1
                         #endregion
                         if (parametro[4].ToUpper() == "FROM")
                         {
+                            use_Need = parametro[1];
+                            from_Need = parametro[5];
+
                             foreach (Database MyDB in elencoDB)
                             {
-                                use_Need = parametro[1];
-                                from_Need = parametro[5];
-
-                                if (use_Need == MyDB.NameDB) // Trovo il Database
+                                if (use_Need.ToUpper() == MyDB.NameDB.ToUpper()) // Trovo il Database
                                 {
                                     selects = parametro[3].Split(','); // Divido i campi della SELECT
 
