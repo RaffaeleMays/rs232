@@ -10,23 +10,23 @@ namespace WindowsFormsApp1
     public class Database
     {
         //Dichiarazione
-        private string[] db_Insegnanti;
-        private string[] db_Allievi;
-        private string nameDB;
-        private static  List<DataTable> tables;
+        //private string[] tab_Insegnanti;
+        //private string[] tab_Allievi;
+        private static string nameDB;
+        private static List<DataTable> tables;
 
 
 
         public string NameDB { get => nameDB; set => nameDB = value; }
-        public string[] Db_Insegnanti { get => db_Insegnanti; set => db_Insegnanti = value; }
-        public string[] Db_Allievi { get => db_Allievi; set => db_Allievi = value; }
-        public static List<DataTable> Tables { get => tables; set => tables = value; }
+        //public string[] Tab_Insegnanti { get => tab_Insegnanti; set => tab_Insegnanti = value; }
+        //public string[] Tab_Allievi { get => tab_Allievi; set => tab_Allievi = value; }
+        public List<DataTable> Tables { get => tables; set => tables = value; }
 
         //Inizializzazione
         public Database(string name)
         {
-            Db_Insegnanti = new string[3];
-            Db_Allievi = new string[3];
+            //Tab_Insegnanti = new string[3];
+            //Tab_Allievi = new string[3];
 
             /*//Array.Resize(Db_Insegnanti, Db_Insegnanti.Length + 3);
             Db_Insegnanti[0] = "Mario Rossi 3339065819";
@@ -59,7 +59,10 @@ namespace WindowsFormsApp1
             tabI.Columns.Add("Cognome", typeof(string));
             tabI.Columns.Add("Numero", typeof(string));
 
-            
+            tabA.Rows.Add("Mattia", "Grigi", "3329045579");
+            tabA.Rows.Add("Gandolfo", "Blu", "3324966819");
+            tabA.Rows.Add("Elia", "Bianchi", "3336368889");            
+
             Tables.Add(tabA);
             Tables.Add(tabI);
 

@@ -7,9 +7,9 @@ using System.IO.Ports;
 
 namespace WindowsFormsApp1
 {
-    public class Myrs232c : SerialPort
+    public class MyRs232c : SerialPort
     {
-        public Myrs232c()
+        public MyRs232c()
         {
             string[] port = 
             SerialPort.GetPortNames();
@@ -22,7 +22,7 @@ namespace WindowsFormsApp1
 
         }
 
-        public Myrs232c(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits) : base(portName, baudRate, parity, dataBits, stopBits) {
+        public MyRs232c(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits) : base(portName, baudRate, parity, dataBits, stopBits) {
             //portName = base.PortName;
             //baudRate = base.BaudRate;
             //parity = base.Parity;
@@ -33,7 +33,7 @@ namespace WindowsFormsApp1
 
         }
 
-        public void Open(Myrs232c MyObject)
+        public void Open(MyRs232c MyObject)
         {
             if (!MyObject.IsOpen)
                 MyObject.Open();
