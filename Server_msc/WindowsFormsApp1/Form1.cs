@@ -27,6 +27,7 @@ namespace WindowsFormsApp1
         private Database DbIsii = new Database("ISII");
         private Database DbTramello = new Database("Tramello");
         public static List<Database> ElencoDB;
+        public static List<List<string>> Output = new List<List<string>>();
 
 
         public frmMainServer()
@@ -104,32 +105,52 @@ namespace WindowsFormsApp1
         public static void ExecuteQuery()
         {
             string[] parametro;
-            foreach (string inter in arrInterrogazioni)
+            string[] selects;
+
+            List<string> Elenco = new List<string>();
+            foreach (string inter in arrInterrogazioni) // Scorrimento delle query
             {
                 parametro = inter.Split(' ');
 
                 if (parametro[0].ToUpper() == "USE")
                 {
-                    for (int i = 0; i < ElencoDB.Count - 1; i++)
+
+                    foreach (Database MyDB in ElencoDB)
                     {
 
-                        if (parametro[1] == ElencoDB[i].NameDB)
+                        if (parametro[1] == MyDB.NameDB) // Trovo il Database
                         {
                             if (parametro[2].ToUpper() == "SELECT")
                             {
-                                switch (parametro[3].ToUpper())
-                                {
-                                    case "NOME":
-                                        for (int j = 0; j < ElencoDB[i].Db_Allievi.Length - 1; j++)
-                                        {
-                                            string[] nomi = ElencoDB[i].Db_Allievi[j].Split(' ');
-                                            myRs232.Write(nomi[0] + "\r\n");
-                                        }
-                                        break;
-                                    case "COGNOME": break;
-                                    case "NUMERO": break;
+                                #region OLD
+                                //switch (parametro[3].ToUpper())
+                                //{
+                                //    case "NOME":
+                                //        for (int j = 0; j < ElencoDB[i].Db_Allievi.Length - 1; j++)
+                                //        {
+                                //            string[] record = ElencoDB[i].Db_Allievi[j].Split(' ');
 
-                                }
+
+                                //             Elenco.Add(record[0]);
+                                //            //myRs232.Write(nomi[0] + "\r\n");
+                                //        }
+                                //        break;
+                                //    case "COGNOME":
+                                //        for (int j = 0; j < ElencoDB[i].Db_Allievi.Length - 1; j++)
+                                //        {
+                                //            string[] record = ElencoDB[i].Db_Allievi[j].Split(' ');
+
+
+                                //            Elenco.Add(record[0]);
+                                //            //myRs232.Write(nomi[0] + "\r\n");
+                                //        }
+                                //        break;
+                                //    case "NUMERO": break;
+
+                                //}
+                                #endregion
+
+                                selects = parametro[3].Split(','); // Divido il select
 
 
 
@@ -159,11 +180,12 @@ namespace WindowsFormsApp1
 
         private void tmrRicevi_Tick(object sender, EventArgs e)
         {
+            // Scorrere la lista con le query e sriverla
             if (myRs232.BytesToRead > 0)
             {
 
                 string query = myRs232.ReadExisting().ToString();
-                txtCronologia.Text += query+ "\r\n" + "_________________" + "\r\n";
+                txtCronologia.Text += query + "\r\n" + "_________________" + "\r\n";
                 Array.Resize(ref arrInterrogazioni, arrInterrogazioni.Length + 1);
                 arrInterrogazioni[arrInterrogazioni.Length - 1] = query;
 
