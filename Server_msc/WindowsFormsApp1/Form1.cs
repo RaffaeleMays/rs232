@@ -186,8 +186,8 @@ namespace WindowsFormsApp1
                         }
                     }
                 }
-                else
-                    return "Necessaria la clausola 'USE'";
+                //else
+                    //return "Necessaria la clausola 'USE'";
 
             }
             elencoInterrogazioni.Add(String.Join(" ", parametro));
