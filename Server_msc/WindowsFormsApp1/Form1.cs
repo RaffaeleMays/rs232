@@ -107,13 +107,15 @@ namespace WindowsFormsApp1
             }
         }
 
-        public static DataTable ExecuteQuery(string query)
+        public static Object ExecuteQuery(string query)
         {
             string[] parametro;
             string[] selects;
             string use_Need;
             string from_Need;
-            DataTable Output = new DataTable();
+            DataTable output = new DataTable();
+            List<string> tupla;
+            List<List<string>> tuple = new List<List<string>>();
 
             parametro = query.Split(' ');
             if (parametro.Length == 6)
@@ -122,33 +124,6 @@ namespace WindowsFormsApp1
                 {
                     if (parametro[2].ToUpper() == "SELECT")
                     {
-                        #region OLD
-                        //switch (parametro[3].ToUpper())
-                        //{
-                        //    case "NOME":
-                        //        for (int j = 0; j < ElencoDB[i].Db_Allievi.Length - 1; j++)
-                        //        {
-                        //            string[] record = ElencoDB[i].Db_Allievi[j].Split(' ');
-
-
-                        //             Elenco.Add(record[0]);
-                        //            //myRs232.Write(nomi[0] + "\r\n");
-                        //        }
-                        //        break;
-                        //    case "COGNOME":
-                        //        for (int j = 0; j < ElencoDB[i].Db_Allievi.Length - 1; j++)
-                        //        {
-                        //            string[] record = ElencoDB[i].Db_Allievi[j].Split(' ');
-
-
-                        //            Elenco.Add(record[0]);
-                        //            //myRs232.Write(nomi[0] + "\r\n");
-                        //        }
-                        //        break;
-                        //    case "NUMERO": break;
-
-                        //}
-                        #endregion
                         if (parametro[4].ToUpper() == "FROM")
                         {
                             use_Need = parametro[1];
@@ -169,18 +144,41 @@ namespace WindowsFormsApp1
                                                 int cont = 0;
                                                 foreach (DataColumn attributo in tab.Columns)
                                                 {
-                                                    cont++;
-                                                    if (attributo.ColumnName.ToUpper() == selects[i].ToUpper())
-                                                    {                                                      
-                                                        Output.Columns.Add(attributo.ColumnName);
+                                                    //tupla.Clear();
+                                                    tupla = new List<string>();
+
+                                                    if (attributo.ColumnName.ToUpper() == selects[i].ToUpper()) // Controllo se l'attributo è uguale al mio select
+                                                    {
+                                                        output.Columns.Add(attributo.ColumnName); // Aggiungo la colonna ad 'output'
                                                         foreach (DataRow record in tab.Rows)
-                                                            Output.Rows.Add(record.ItemArray[cont]);
+                                                        {
+                                                            tupla.Add(record.ItemArray[cont].ToString());
+
+                                                        }
+                                                        tuple.Add(tupla);
+                                                        break;
                                                     }
-                                                    break;
+                                                    cont++;
+
                                                 }
                                             }
                                             break;
                                         }
+                                    }
+
+                                    if (tuple.Count > 0)
+                                    {
+                                        for (int y = 0; y < tuple[0].Count; y++)
+                                        {
+                                            tupla = new List<string>();
+                                            for (int x = 0; x < tuple.Count; x++)
+                                            {
+                                                tupla.Add(tuple[x][y]);
+
+                                            }
+                                            output.Rows.Add(tupla.ToArray());
+                                        }
+
                                     }
                                     break;
                                 }
@@ -188,9 +186,12 @@ namespace WindowsFormsApp1
                         }
                     }
                 }
-                elencoInterrogazioni.Add(String.Join(" ", parametro));
+                else
+                    return "Necessaria la clausola 'USE'";
+
             }
-            return Output;
+            elencoInterrogazioni.Add(String.Join(" ", parametro));
+            return output;
         }
 
         private void tmrRicevi_Tick(object sender, EventArgs e)
@@ -201,6 +202,7 @@ namespace WindowsFormsApp1
                 string query = myRs232.ReadExisting().ToString();
                 string a = JsonConvert.SerializeObject(ExecuteQuery(query));
                 myRs232.Write(a);
+                txtCronologia.Clear();
                 foreach (string dato in elencoInterrogazioni)
                     txtCronologia.Text += dato + "\r\n";
             }

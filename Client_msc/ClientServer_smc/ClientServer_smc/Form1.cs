@@ -15,7 +15,8 @@ namespace ClientServer_smc
 {
     public partial class frmMain : Form
     {
-        private MyRs232 myRs232;
+        MyRs232 myRs232;
+        DataTable result;
 
         public frmMain()
         {
@@ -25,6 +26,7 @@ namespace ClientServer_smc
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            result = new DataTable();
             myRs232 = new MyRs232();
             myRs232.Open();
         }
@@ -61,7 +63,9 @@ namespace ClientServer_smc
         {
             if (myRs232.BytesToRead > 0)
             {
-                txtResult.Text += myRs232.ReadExisting().ToString();
+                string inBuffer = myRs232.ReadExisting().ToString();
+                txtResult.Text += inBuffer;
+                result = JsonConvert.DeserializeObject<DataTable>(inBuffer);
             }
         }
     }

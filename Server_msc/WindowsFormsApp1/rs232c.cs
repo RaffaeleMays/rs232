@@ -13,7 +13,7 @@ namespace WindowsFormsApp1
         {
             //string[] port = 
             //SerialPort.GetPortNames();
-            string porta=SerialPort.GetPortNames()[0];
+            //string porta=SerialPort.GetPortNames()[0];
             PortName = SerialPort.GetPortNames()[SerialPort.GetPortNames().Length -1];
             BaudRate = 9600;
             Parity = Parity.None;

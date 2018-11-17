@@ -12,8 +12,8 @@ namespace WindowsFormsApp1
         //Dichiarazione
         //private string[] tab_Insegnanti;
         //private string[] tab_Allievi;
-        private static string nameDB;
-        private static List<DataTable> tables;
+        private string nameDB;
+        private List<DataTable> tables;
 
 
 
