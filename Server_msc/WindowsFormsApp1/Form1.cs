@@ -26,8 +26,8 @@ namespace WindowsFormsApp1
         public static MyRs232c myRs232;
         public static List<string> elencoInterrogazioni;
         private static int countDown = 121;
-        private Database dbIsii;
-        private Database dbTramello;
+        public static Database dbIsii;
+        public static Database dbTramello;
         public static List<Database> elencoDB;
         //public static List<List<string>> Output = new List<List<string>>();
         #endregion
@@ -152,7 +152,7 @@ namespace WindowsFormsApp1
                         if (parametro[4].ToUpper() == "FROM")
                         {
                             use_Need = parametro[1];
-                            from_Need = parametro[5];
+                            from_Need = parametro[5].Substring(0, parametro[5].IndexOf("\n"));
 
                             foreach (Database MyDB in elencoDB)
                             {
@@ -171,11 +171,10 @@ namespace WindowsFormsApp1
                                                 {
                                                     cont++;
                                                     if (attributo.ColumnName.ToUpper() == selects[i].ToUpper())
-                                                    {
+                                                    {                                                      
+                                                        Output.Columns.Add(attributo.ColumnName);
                                                         foreach (DataRow record in tab.Rows)
-                                                            Output.Rows.Add(record[cont]);
-                                                        if (Output.Rows.Count > 0)
-                                                            Output.Columns.Add(attributo.ColumnName);
+                                                            Output.Rows.Add(record.ItemArray[cont]);
                                                     }
                                                     break;
                                                 }
@@ -200,7 +199,8 @@ namespace WindowsFormsApp1
             if (myRs232.BytesToRead > 0)
             {
                 string query = myRs232.ReadExisting().ToString();
-                JsonConvert.SerializeObject(ExecuteQuery(query));
+                string a = JsonConvert.SerializeObject(ExecuteQuery(query));
+                myRs232.Write(a);
                 foreach (string dato in elencoInterrogazioni)
                     txtCronologia.Text += dato + "\r\n";
             }
