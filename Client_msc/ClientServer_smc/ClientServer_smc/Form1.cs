@@ -64,8 +64,14 @@ namespace ClientServer_smc
             if (myRs232.BytesToRead > 0)
             {
                 string inBuffer = myRs232.ReadExisting().ToString();
-                txtResult.Text += inBuffer;
-                result = JsonConvert.DeserializeObject<DataTable>(inBuffer);
+                try
+                {
+                    result = JsonConvert.DeserializeObject<DataTable>(inBuffer);
+                }
+                catch
+                {                    
+                    MessageBox.Show(inBuffer, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
         }
     }

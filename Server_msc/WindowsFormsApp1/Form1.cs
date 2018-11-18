@@ -25,7 +25,7 @@ namespace WindowsFormsApp1
         private static bool StatusServer;
         public static MyRs232c myRs232;
         public static List<string> elencoInterrogazioni;
-        private static int countDown = 121;
+        private static int countDown = 120;
         public static Database dbIsii;
         public static Database dbTramello;
         public static List<Database> elencoDB;
@@ -50,6 +50,7 @@ namespace WindowsFormsApp1
             StatusServer = false;
             myRs232.Open();
             lblCountDown.Text = "";
+            tmrRicevi.Start();
         }
 
         private void btnAvvia_Click(object sender, EventArgs e)
@@ -58,23 +59,23 @@ namespace WindowsFormsApp1
             StatusServer = true;
             tmrSuspend.Stop();
             //txtCronologia.Text =  myRs232.ReadExisting().ToString();
-            tmrRicevi.Start();
+            //tmrRicevi.Start();
         }
 
         private void btnSospendi_Click(object sender, EventArgs e)
         {
             PanelStatus.BackColor = StatoSuspendYellow;
-            lblCountDown.Text = "120";
+            lblCountDown.Text = countDown.ToString();
             StatusServer = false;
             tmrSuspend.Start();
-            tmrRicevi.Stop();
+            //tmrRicevi.Stop();
 
         }
 
         private void btnRispristino_Click(object sender, EventArgs e)
         {
             tmrSuspend.Stop();
-            tmrRicevi.Stop();
+            tmrRicevi.Start();
         }
 
         private void srlPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -96,9 +97,10 @@ namespace WindowsFormsApp1
 
         private void tmrSuspend_Tick(object sender, EventArgs e)
         {
-            countDown--;
+            
             //txtCronologia.Text = k.ToString();
             lblCountDown.Text = countDown.ToString();
+            countDown--;
             if (countDown == (0))
             {
                 PanelStatus.BackColor = StatoDownRed;
@@ -116,80 +118,89 @@ namespace WindowsFormsApp1
             DataTable output = new DataTable();
             List<string> tupla;
             List<List<string>> tuple = new List<List<string>>();
+            string[,] error = new string[1, 2];
+            error[0, 0] = "Exception";
+
 
             parametro = query.Split(' ');
-            if (parametro.Length == 6)
+
+            if (parametro[0].ToUpper() == "USE" && parametro[2].ToUpper() == "SELECT" & parametro[4].ToUpper() == "FROM")
             {
-                if (parametro[0].ToUpper() == "USE")
+                if (parametro.Length == 6)
                 {
-                    if (parametro[2].ToUpper() == "SELECT")
+                    use_Need = parametro[1];
+                    from_Need = parametro[5].Substring(0, parametro[5].IndexOf("\n"));
+
+                    foreach (Database MyDB in elencoDB)
                     {
-                        if (parametro[4].ToUpper() == "FROM")
+                        if (use_Need.ToUpper() == MyDB.NameDB.ToUpper()) // Trovo il Database
                         {
-                            use_Need = parametro[1];
-                            from_Need = parametro[5].Substring(0, parametro[5].IndexOf("\n"));
+                            selects = parametro[3].Split(','); // Divido i campi della SELECT
 
-                            foreach (Database MyDB in elencoDB)
+                            foreach (DataTable tab in MyDB.Tables) // Scorro le tabelle nel mio DB
                             {
-                                if (use_Need.ToUpper() == MyDB.NameDB.ToUpper()) // Trovo il Database
+                                if (tab.TableName.ToUpper() == from_Need.ToUpper()) // Trovo il nome della tabella
                                 {
-                                    selects = parametro[3].Split(','); // Divido i campi della SELECT
-
-                                    foreach (DataTable tab in MyDB.Tables) // Scorro le tabelle nel mio DB
+                                    for (int i = 0; i < selects.Length; i++) // Scorro i campi della SELECT
                                     {
-                                        if (tab.TableName.ToUpper() == from_Need.ToUpper()) // Trovo il nome della tabella
+                                        int cont = 0;
+                                        foreach (DataColumn attributo in tab.Columns)
                                         {
-                                            for (int i = 0; i < selects.Length; i++) // Scorro i campi della SELECT
+                                            //tupla.Clear();
+                                            tupla = new List<string>();
+
+                                            if (attributo.ColumnName.ToUpper() == selects[i].ToUpper()) // Controllo se l'attributo è uguale al mio select
                                             {
-                                                int cont = 0;
-                                                foreach (DataColumn attributo in tab.Columns)
+                                                output.Columns.Add(attributo.ColumnName); // Aggiungo la colonna ad 'output'
+                                                foreach (DataRow record in tab.Rows)
                                                 {
-                                                    //tupla.Clear();
-                                                    tupla = new List<string>();
-
-                                                    if (attributo.ColumnName.ToUpper() == selects[i].ToUpper()) // Controllo se l'attributo è uguale al mio select
-                                                    {
-                                                        output.Columns.Add(attributo.ColumnName); // Aggiungo la colonna ad 'output'
-                                                        foreach (DataRow record in tab.Rows)
-                                                        {
-                                                            tupla.Add(record.ItemArray[cont].ToString());
-
-                                                        }
-                                                        tuple.Add(tupla);
-                                                        break;
-                                                    }
-                                                    cont++;
+                                                    tupla.Add(record.ItemArray[cont].ToString());
 
                                                 }
+                                                tuple.Add(tupla);
+                                                break;
                                             }
-                                            break;
+                                            cont++;
+
                                         }
-                                    }
-
-                                    if (tuple.Count > 0)
-                                    {
-                                        for (int y = 0; y < tuple[0].Count; y++)
-                                        {
-                                            tupla = new List<string>();
-                                            for (int x = 0; x < tuple.Count; x++)
-                                            {
-                                                tupla.Add(tuple[x][y]);
-
-                                            }
-                                            output.Rows.Add(tupla.ToArray());
-                                        }
-
                                     }
                                     break;
                                 }
                             }
+
+                            if (tuple.Count > 0)
+                            {
+                                for (int y = 0; y < tuple[0].Count; y++)
+                                {
+                                    tupla = new List<string>();
+                                    for (int x = 0; x < tuple.Count; x++)
+                                    {
+                                        tupla.Add(tuple[x][y]);
+
+                                    }
+                                    output.Rows.Add(tupla.ToArray());
+                                }
+
+                            }
+                            break;
                         }
                     }
-                }
-                //else
-                    //return "Necessaria la clausola 'USE'";
 
+                }
+                else
+                {
+                    //error[0, 1] = "Sintassi non corretta";
+                    //return error;
+                    return "Sintassi non corretta";
+                }
             }
+            else
+            {
+                //error[0, 1] = "Necessarie la clausole 'USE', 'SELECT' e 'FROM'";
+                //return error;
+                return "Necessarie la clausole 'USE', 'SELECT' e 'FROM'";
+            }
+
             elencoInterrogazioni.Add(String.Join(" ", parametro));
             return output;
         }
@@ -197,16 +208,20 @@ namespace WindowsFormsApp1
         private void tmrRicevi_Tick(object sender, EventArgs e)
         {
             // Scorrere la lista con le query e scriverla
-            if (myRs232.BytesToRead > 0)
+            if (StatusServer == false)
+                myRs232.Write("Il server è non è al momento disponibile");
+            else
             {
-                string query = myRs232.ReadExisting().ToString();
-                string a = JsonConvert.SerializeObject(ExecuteQuery(query));
-                myRs232.Write(a);
-                txtCronologia.Clear();
-                foreach (string dato in elencoInterrogazioni)
-                    txtCronologia.Text += dato + "\r\n";
+                if (myRs232.BytesToRead > 0)
+                {
+                    string query = myRs232.ReadExisting().ToString();
+                    string a = JsonConvert.SerializeObject(ExecuteQuery(query));
+                    myRs232.Write(a);
+                    txtCronologia.Clear();
+                    foreach (string dato in elencoInterrogazioni)
+                        txtCronologia.Text += dato + "\r\n";
+                }
             }
-
         }
     }
 }
