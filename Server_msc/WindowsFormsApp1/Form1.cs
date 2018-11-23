@@ -40,6 +40,7 @@ namespace WindowsFormsApp1
         private void frmMainServer_Load(object sender, EventArgs e)
         {
             myRs232 = new MyRs232c();
+            myRs232.NewOpen();
             elencoDB = new List<Database>();
             dbIsii = new Database("ISII");
             dbTramello = new Database("Tramello");
@@ -48,7 +49,7 @@ namespace WindowsFormsApp1
             elencoDB.Add(dbTramello);
             PanelStatus.BackColor = StatoDownRed;
             StatusServer = false;
-            myRs232.Open();
+
             lblCountDown.Text = "";
             tmrRicevi.Start();
         }
@@ -78,26 +79,17 @@ namespace WindowsFormsApp1
             tmrRicevi.Start();
         }
 
+        string a = "";
         private void srlPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            //for (int i = 0; true/*i < srlPort1.ReadExisting().Length*/; i++)
-            //{
-            //    //    if (srlPort1.ReadLine() == "" || srlPort1.ReadLine() == null)
-            //    //        break;
-            //    //    else
-            //    //    {
-            //    Array.Resize(ref arrInterrogazioni, arrInterrogazioni.Length + 1);
-            //        arrInterrogazioni[i] = srlPort1.ReadLine(); // Memorizzo ogni riga all'interno di ogni indice dell'array cosi è molto più semplice eseguire i risultati e fare il match (select from) con le singole righe
-            //                                                    //    }
-            //}
-            //txtCronologia.Text += myRs232.ReadExisting().ToString();
+            //a += myRs232.ReadExisting();
 
 
         }
 
         private void tmrSuspend_Tick(object sender, EventArgs e)
         {
-            
+
             //txtCronologia.Text = k.ToString();
             lblCountDown.Text = countDown.ToString();
             countDown--;
@@ -115,17 +107,20 @@ namespace WindowsFormsApp1
             string[] selects;
             string use_Need;
             string from_Need;
+            string error;
             DataTable output = new DataTable();
             List<string> tupla;
             List<List<string>> tuple = new List<List<string>>();
-            string[,] error = new string[1, 2];
-            error[0, 0] = "Exception";
+            //string[,] error = new string[1, 2];
+            //error[0, 0] = "Exception";
 
 
-            parametro = query.Split(' ');
 
-            if (parametro[0].ToUpper() == "USE" && parametro[2].ToUpper() == "SELECT" & parametro[4].ToUpper() == "FROM")
+            if (query.ToUpper().Contains("USE") && query.ToUpper().Contains("SELECT") && query.ToUpper().Contains("FROM"))
             {
+                parametro = query.Split(' ');
+                //if (parametro[0].ToUpper() == "USE" && parametro[2].ToUpper() == "SELECT" & parametro[4].ToUpper() == "FROM")
+                //{
                 if (parametro.Length == 6)
                 {
                     use_Need = parametro[1];
@@ -141,6 +136,7 @@ namespace WindowsFormsApp1
                             {
                                 if (tab.TableName.ToUpper() == from_Need.ToUpper()) // Trovo il nome della tabella
                                 {
+                                    output.TableName = tab.TableName;
                                     for (int i = 0; i < selects.Length; i++) // Scorro i campi della SELECT
                                     {
                                         int cont = 0;
@@ -191,14 +187,16 @@ namespace WindowsFormsApp1
                 {
                     //error[0, 1] = "Sintassi non corretta";
                     //return error;
-                    return "Sintassi non corretta";
+                    error = "\"Sintassi non corretta\"";
+                    return error;
                 }
             }
             else
             {
                 //error[0, 1] = "Necessarie la clausole 'USE', 'SELECT' e 'FROM'";
                 //return error;
-                return "Necessarie la clausole 'USE', 'SELECT' e 'FROM'";
+                error = "\"Necessarie la clausole 'USE', 'SELECT' e 'FROM'\"";
+                return error;
             }
 
             elencoInterrogazioni.Add(String.Join(" ", parametro));
@@ -207,21 +205,29 @@ namespace WindowsFormsApp1
 
         private void tmrRicevi_Tick(object sender, EventArgs e)
         {
-            // Scorrere la lista con le query e scriverla
-            if (StatusServer == false)
-                myRs232.Write("Il server è non è al momento disponibile");
-            else
+            //Scorrere la lista con le query e scriverla
+            if (myRs232.BytesToRead > 0)
             {
-                if (myRs232.BytesToRead > 0)
+                if (StatusServer == false)
                 {
-                    string query = myRs232.ReadExisting().ToString();
-                    string a = JsonConvert.SerializeObject(ExecuteQuery(query));
-                    myRs232.Write(a);
-                    txtCronologia.Clear();
-                    foreach (string dato in elencoInterrogazioni)
-                        txtCronologia.Text += dato + "\r\n";
+                    myRs232.Write("\"Il server non e' al momento disponibile\"");
+                    myRs232.DiscardInBuffer();
+                }
+                else
+                {
+                    if (myRs232.BytesToRead > 0)
+                    {
+                        string query = myRs232.ReadExisting().ToString();
+                        string a = JsonConvert.SerializeObject(ExecuteQuery(query));
+                        myRs232.Write(a);
+                        txtCronologia.Clear();
+                        foreach (string dato in elencoInterrogazioni)
+                            txtCronologia.Text += dato + "\r\n";
+                    }
                 }
             }
         }
+
+
     }
 }

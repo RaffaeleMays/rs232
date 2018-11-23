@@ -14,7 +14,7 @@ namespace WindowsFormsApp1
             //string[] port = 
             //SerialPort.GetPortNames();
             //string porta=SerialPort.GetPortNames()[0];
-            PortName = SerialPort.GetPortNames()[SerialPort.GetPortNames().Length -1];
+            PortName = SerialPort.GetPortNames()[SerialPort.GetPortNames().Length -2];
             BaudRate = 9600;
             Parity = Parity.None;
             DataBits = 8;
@@ -33,12 +33,12 @@ namespace WindowsFormsApp1
 
         }
 
-        public void Open(MyRs232c MyObject)
+        public void NewOpen()
         {
-            if (!MyObject.IsOpen)
-                MyObject.Open();
+            if (!this.IsOpen)
+                this.Open();
         }
 
-        
+
     }
 }

@@ -42,20 +42,18 @@
             // txtQuery
             // 
             this.txtQuery.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQuery.Location = new System.Drawing.Point(16, 44);
-            this.txtQuery.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtQuery.Location = new System.Drawing.Point(12, 36);
             this.txtQuery.Multiline = true;
             this.txtQuery.Name = "txtQuery";
-            this.txtQuery.Size = new System.Drawing.Size(485, 270);
+            this.txtQuery.Size = new System.Drawing.Size(365, 220);
             this.txtQuery.TabIndex = 0;
             this.txtQuery.Text = "use isii select nome from allievi";
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(511, 257);
-            this.btnQuery.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnQuery.Location = new System.Drawing.Point(383, 209);
             this.btnQuery.Name = "btnQuery";
-            this.btnQuery.Size = new System.Drawing.Size(112, 58);
+            this.btnQuery.Size = new System.Drawing.Size(84, 47);
             this.btnQuery.TabIndex = 2;
             this.btnQuery.Text = "Query";
             this.btnQuery.UseVisualStyleBackColor = true;
@@ -63,14 +61,14 @@
             // 
             // srlPort1
             // 
+            this.srlPort1.PortName = "COM6";
             this.srlPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.srlPort1_DataReceived);
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(511, 44);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnClear.Location = new System.Drawing.Point(383, 36);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(112, 58);
+            this.btnClear.Size = new System.Drawing.Size(84, 47);
             this.btnClear.TabIndex = 3;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -80,31 +78,28 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 10);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(7, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(157, 31);
+            this.label1.Size = new System.Drawing.Size(125, 25);
             this.label1.TabIndex = 4;
             this.label1.Text = "Insert Query";
             // 
             // txtResult
             // 
             this.txtResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtResult.Location = new System.Drawing.Point(16, 415);
-            this.txtResult.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtResult.Location = new System.Drawing.Point(12, 337);
             this.txtResult.Multiline = true;
             this.txtResult.Name = "txtResult";
-            this.txtResult.Size = new System.Drawing.Size(612, 160);
+            this.txtResult.Size = new System.Drawing.Size(460, 131);
             this.txtResult.TabIndex = 5;
             // 
             // lblResult
             // 
             this.lblResult.AutoSize = true;
             this.lblResult.Font = new System.Drawing.Font("Microsoft YaHei", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResult.Location = new System.Drawing.Point(16, 368);
-            this.lblResult.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblResult.Location = new System.Drawing.Point(12, 299);
             this.lblResult.Name = "lblResult";
-            this.lblResult.Size = new System.Drawing.Size(163, 31);
+            this.lblResult.Size = new System.Drawing.Size(129, 25);
             this.lblResult.TabIndex = 6;
             this.lblResult.Text = "Result Query";
             // 
@@ -114,16 +109,15 @@
             // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(645, 613);
+            this.ClientSize = new System.Drawing.Size(484, 498);
             this.Controls.Add(this.lblResult);
             this.Controls.Add(this.txtResult);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnQuery);
             this.Controls.Add(this.txtQuery);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmMain";
             this.Text = "Client";
             this.Load += new System.EventHandler(this.frmMain_Load);

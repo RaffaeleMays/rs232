@@ -9,7 +9,7 @@ namespace ClientServer_smc {
     class MyRs232 : SerialPort {
         public MyRs232() {
 
-            PortName = SerialPort.GetPortNames()[SerialPort.GetPortNames().Length - 2];
+            PortName = SerialPort.GetPortNames()[SerialPort.GetPortNames().Length - 1];
             BaudRate = 9600;
             Parity = Parity.None;
             DataBits = 8;
@@ -27,9 +27,9 @@ namespace ClientServer_smc {
 
         }
 
-        public void Open(MyRs232 MyObject) {
-            if (!MyObject.IsOpen)
-                MyObject.Open();
+        public void NewOpen() {
+            if (!this.IsOpen)
+                this.Open();
         }
 
     }

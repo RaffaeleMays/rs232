@@ -11,24 +11,31 @@ using System.IO.Ports;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
 
+
 namespace ClientServer_smc
 {
     public partial class frmMain : Form
     {
         MyRs232 myRs232;
-        DataTable result;
+        Object result;
+        //DataTable resultA;
+        //DataTable resultI;
+        public static bool tabA;
+        public static bool tabI;
 
         public frmMain()
         {
             InitializeComponent();
 
         }
-
+        
         private void frmMain_Load(object sender, EventArgs e)
         {
-            result = new DataTable();
+            result = new Object();
             myRs232 = new MyRs232();
-            myRs232.Open();
+            myRs232.NewOpen();
+            
+            
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -47,6 +54,9 @@ namespace ClientServer_smc
 
             txtResult.Clear();
             tmrResult.Start();
+
+
+            //myRs232.Write("ciao");
         }
 
 
@@ -56,6 +66,7 @@ namespace ClientServer_smc
 
             //object ritorno = JsonConvert.DeserializeObject(/*Inserire la stringa di tipo json vedi sopra es.queryJSON*/);
             //txtQuery.Text = (string)ritorno;
+            
 
         }
 
@@ -64,14 +75,36 @@ namespace ClientServer_smc
             if (myRs232.BytesToRead > 0)
             {
                 string inBuffer = myRs232.ReadExisting().ToString();
+                txtResult.Text += inBuffer;                 //Visualizza nella tabella Result il Jason ricevuto
+
                 try
                 {
                     result = JsonConvert.DeserializeObject<DataTable>(inBuffer);
                 }
                 catch
-                {                    
-                    MessageBox.Show(inBuffer, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                {
+                    MessageBox.Show(inBuffer, "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                //if (result.TableName.ToUpper() == "ALLIEVI")
+                //    tabA = true;
+                //else if (result.TableName.ToUpper() == "INSEGNANTI")
+                //    tabI = true;
+                //if(inBuffer.Contains("allievi") == true)
+                //   {
+                //    result = JsonConvert.DeserializeObject<DataTable>(inBuffer);
+                //    tabA = true;
+
+                //   }
+                //else if(inBuffer.Contains("Insegnanti") == true)
+                //{
+                //    result = JsonConvert.DeserializeObject<DataTable>(inBuffer);
+                //    tabI = true;
+                //}
+
+                //DataTable result = (DataTable)JsonConvert.DeserializeObject(inBuffer, (typeof(DataTable))); //oppure questo ma non so se funziona
+
+                //frmTables.Collegamento(result, tabA, tabI); // invia il datattable all'altra form e inserisce le bool o di allievo o di insegnante cosi poi le distingue nel datagridview
+
             }
         }
     }
