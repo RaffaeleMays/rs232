@@ -41,11 +41,10 @@
             // 
             // txtInsertQuery
             // 
-            this.txtInsertQuery.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInsertQuery.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtInsertQuery.Font = new System.Drawing.Font("OpenSymbol", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtInsertQuery.Location = new System.Drawing.Point(16, 44);
-            this.txtInsertQuery.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtInsertQuery.Margin = new System.Windows.Forms.Padding(4);
             this.txtInsertQuery.Name = "txtInsertQuery";
             this.txtInsertQuery.Size = new System.Drawing.Size(487, 36);
             this.txtInsertQuery.TabIndex = 0;
@@ -53,11 +52,11 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnQuery.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnQuery.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.btnQuery.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnQuery.Location = new System.Drawing.Point(283, 88);
-            this.btnQuery.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnQuery.Margin = new System.Windows.Forms.Padding(4);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(220, 42);
             this.btnQuery.TabIndex = 2;
@@ -72,11 +71,11 @@
             // 
             // btnClear
             // 
-            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnClear.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnClear.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.Location = new System.Drawing.Point(16, 88);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(4);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(222, 42);
             this.btnClear.TabIndex = 3;
@@ -86,7 +85,7 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(187, 10);
@@ -98,7 +97,7 @@
             // 
             // lblResult
             // 
-            this.lblResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblResult.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblResult.AutoSize = true;
             this.lblResult.Font = new System.Drawing.Font("Microsoft JhengHei", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblResult.Location = new System.Drawing.Point(187, 151);
@@ -114,8 +113,7 @@
             // 
             // lstQueryList
             // 
-            this.lstQueryList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstQueryList.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lstQueryList.Font = new System.Drawing.Font("OpenSymbol", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstQueryList.FormattingEnabled = true;
             this.lstQueryList.ItemHeight = 20;
@@ -137,7 +135,7 @@
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnQuery);
             this.Controls.Add(this.txtInsertQuery);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMain";
             this.Text = "Client";
             this.Load += new System.EventHandler(this.frmMain_Load);

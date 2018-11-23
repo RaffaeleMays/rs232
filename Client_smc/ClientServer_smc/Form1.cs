@@ -54,7 +54,7 @@ namespace ClientServer_smc
             myRs232.WriteLine(query);
 
             //txtResult.Clear();
-            lstQueryList.Items.Add((lstQueryList.Items.Count + 1).ToString() + ") " + query);
+            //lstQueryList.Items.Add((lstQueryList.Items.Count + 1).ToString() + ") " + query);
             tmrResult.Start();
 
 
@@ -75,13 +75,14 @@ namespace ClientServer_smc
         private void tmrResult_Tick(object sender, EventArgs e)
         {
             if (myRs232.BytesToRead > 0)
-            {
+            {                
                 string inBuffer = myRs232.ReadExisting().ToString();
                 //Visualizza nella tabella Result il Jason ricevuto
 
                 try
                 {
                     result = JsonConvert.DeserializeObject<DataTable>(inBuffer);
+                    lstQueryList.Items.Add((lstQueryList.Items.Count + 1).ToString() + ") " + query);
                     frmResult frm_Result = new frmResult();
                     frm_Result.SetTable((DataTable)result, query);
                     frm_Result.Show();

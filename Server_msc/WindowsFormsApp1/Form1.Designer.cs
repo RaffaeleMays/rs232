@@ -38,7 +38,6 @@
             this.pnlDown = new System.Windows.Forms.Panel();
             this.pnlSuspend = new System.Windows.Forms.Panel();
             this.pnlUp = new System.Windows.Forms.Panel();
-            this.txtCronologia = new System.Windows.Forms.TextBox();
             this.btnAvvia = new System.Windows.Forms.Button();
             this.btnSospendi = new System.Windows.Forms.Button();
             this.btnRispristino = new System.Windows.Forms.Button();
@@ -48,6 +47,7 @@
             this.srlPort1 = new System.IO.Ports.SerialPort(this.components);
             this.tmrSuspend = new System.Windows.Forms.Timer(this.components);
             this.tmrRicevi = new System.Windows.Forms.Timer(this.components);
+            this.lblCronologia = new System.Windows.Forms.ListBox();
             this.grbStato.SuspendLayout();
             this.grbComandi.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +55,7 @@
             // PanelStatus
             // 
             this.PanelStatus.Location = new System.Drawing.Point(206, 45);
-            this.PanelStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PanelStatus.Margin = new System.Windows.Forms.Padding(4);
             this.PanelStatus.Name = "PanelStatus";
             this.PanelStatus.Size = new System.Drawing.Size(40, 22);
             this.PanelStatus.TabIndex = 0;
@@ -86,9 +86,9 @@
             this.grbStato.Controls.Add(this.pnlUp);
             this.grbStato.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grbStato.Location = new System.Drawing.Point(13, 13);
-            this.grbStato.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grbStato.Margin = new System.Windows.Forms.Padding(4);
             this.grbStato.Name = "grbStato";
-            this.grbStato.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grbStato.Padding = new System.Windows.Forms.Padding(4);
             this.grbStato.Size = new System.Drawing.Size(554, 100);
             this.grbStato.TabIndex = 2;
             this.grbStato.TabStop = false;
@@ -134,7 +134,7 @@
             // 
             this.pnlDown.BackColor = System.Drawing.Color.Red;
             this.pnlDown.Location = new System.Drawing.Point(374, 65);
-            this.pnlDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlDown.Margin = new System.Windows.Forms.Padding(4);
             this.pnlDown.Name = "pnlDown";
             this.pnlDown.Size = new System.Drawing.Size(20, 12);
             this.pnlDown.TabIndex = 3;
@@ -143,7 +143,7 @@
             // 
             this.pnlSuspend.BackColor = System.Drawing.Color.Yellow;
             this.pnlSuspend.Location = new System.Drawing.Point(374, 46);
-            this.pnlSuspend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlSuspend.Margin = new System.Windows.Forms.Padding(4);
             this.pnlSuspend.Name = "pnlSuspend";
             this.pnlSuspend.Size = new System.Drawing.Size(20, 12);
             this.pnlSuspend.TabIndex = 2;
@@ -152,28 +152,16 @@
             // 
             this.pnlUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.pnlUp.Location = new System.Drawing.Point(374, 26);
-            this.pnlUp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlUp.Margin = new System.Windows.Forms.Padding(4);
             this.pnlUp.Name = "pnlUp";
             this.pnlUp.Size = new System.Drawing.Size(20, 12);
             this.pnlUp.TabIndex = 1;
-            // 
-            // txtCronologia
-            // 
-            this.txtCronologia.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCronologia.Font = new System.Drawing.Font("OpenSymbol", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCronologia.Location = new System.Drawing.Point(12, 258);
-            this.txtCronologia.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtCronologia.Multiline = true;
-            this.txtCronologia.Name = "txtCronologia";
-            this.txtCronologia.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCronologia.Size = new System.Drawing.Size(555, 280);
-            this.txtCronologia.TabIndex = 3;
             // 
             // btnAvvia
             // 
             this.btnAvvia.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAvvia.Location = new System.Drawing.Point(37, 37);
-            this.btnAvvia.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAvvia.Margin = new System.Windows.Forms.Padding(4);
             this.btnAvvia.Name = "btnAvvia";
             this.btnAvvia.Size = new System.Drawing.Size(100, 28);
             this.btnAvvia.TabIndex = 4;
@@ -185,7 +173,7 @@
             // 
             this.btnSospendi.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSospendi.Location = new System.Drawing.Point(219, 37);
-            this.btnSospendi.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSospendi.Margin = new System.Windows.Forms.Padding(4);
             this.btnSospendi.Name = "btnSospendi";
             this.btnSospendi.Size = new System.Drawing.Size(100, 28);
             this.btnSospendi.TabIndex = 5;
@@ -197,7 +185,7 @@
             // 
             this.btnRispristino.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRispristino.Location = new System.Drawing.Point(416, 37);
-            this.btnRispristino.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRispristino.Margin = new System.Windows.Forms.Padding(4);
             this.btnRispristino.Name = "btnRispristino";
             this.btnRispristino.Size = new System.Drawing.Size(100, 28);
             this.btnRispristino.TabIndex = 6;
@@ -214,9 +202,9 @@
             this.grbComandi.Controls.Add(this.btnAvvia);
             this.grbComandi.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grbComandi.Location = new System.Drawing.Point(13, 122);
-            this.grbComandi.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grbComandi.Margin = new System.Windows.Forms.Padding(4);
             this.grbComandi.Name = "grbComandi";
-            this.grbComandi.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grbComandi.Padding = new System.Windows.Forms.Padding(4);
             this.grbComandi.Size = new System.Drawing.Size(554, 87);
             this.grbComandi.TabIndex = 7;
             this.grbComandi.TabStop = false;
@@ -258,16 +246,28 @@
             // 
             this.tmrRicevi.Tick += new System.EventHandler(this.tmrRicevi_Tick);
             // 
+            // lblCronologia
+            // 
+            this.lblCronologia.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCronologia.Font = new System.Drawing.Font("OpenSymbol", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCronologia.FormattingEnabled = true;
+            this.lblCronologia.ItemHeight = 20;
+            this.lblCronologia.Location = new System.Drawing.Point(13, 251);
+            this.lblCronologia.Name = "lblCronologia";
+            this.lblCronologia.ScrollAlwaysVisible = true;
+            this.lblCronologia.Size = new System.Drawing.Size(554, 124);
+            this.lblCronologia.TabIndex = 9;
+            // 
             // frmMainServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(581, 554);
+            this.ClientSize = new System.Drawing.Size(581, 396);
+            this.Controls.Add(this.lblCronologia);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.grbComandi);
-            this.Controls.Add(this.txtCronologia);
             this.Controls.Add(this.grbStato);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMainServer";
             this.Text = "SERVER.msc";
             this.Load += new System.EventHandler(this.frmMainServer_Load);
@@ -291,7 +291,6 @@
         private System.Windows.Forms.Panel pnlDown;
         private System.Windows.Forms.Panel pnlSuspend;
         private System.Windows.Forms.Panel pnlUp;
-        private System.Windows.Forms.TextBox txtCronologia;
         private System.Windows.Forms.Button btnAvvia;
         private System.Windows.Forms.Button btnSospendi;
         private System.Windows.Forms.Button btnRispristino;
@@ -301,6 +300,7 @@
         private System.Windows.Forms.Timer tmrSuspend;
         private System.Windows.Forms.Label lblCountDown;
         private System.Windows.Forms.Timer tmrRicevi;
+        private System.Windows.Forms.ListBox lblCronologia;
     }
 }
 

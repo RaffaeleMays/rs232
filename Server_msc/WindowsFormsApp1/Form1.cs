@@ -24,8 +24,8 @@ namespace WindowsFormsApp1
         #region Globals
         private static bool StatusServer;
         public static MyRs232c myRs232;
-        public static List<string> elencoInterrogazioni;
-        private static int countDown = 120;
+        //public static List<string> elencoInterrogazioni;
+        private static int countDown;
         public static Database dbIsii;
         public static Database dbTramello;
         public static List<Database> elencoDB;
@@ -44,11 +44,12 @@ namespace WindowsFormsApp1
             elencoDB = new List<Database>();
             dbIsii = new Database("ISII");
             dbTramello = new Database("Tramello");
-            elencoInterrogazioni = new List<string>();
+            //elencoInterrogazioni = new List<string>();
             elencoDB.Add(dbIsii);
             elencoDB.Add(dbTramello);
             PanelStatus.BackColor = StatoDownRed;
             StatusServer = false;
+            countDown = 120;
 
             lblCountDown.Text = "";
             tmrRicevi.Start();
@@ -73,6 +74,24 @@ namespace WindowsFormsApp1
 
         }
 
+        private void tmrSuspend_Tick(object sender, EventArgs e)
+        {
+
+            //txtCronologia.Text = k.ToString();
+            lblCountDown.Text = countDown.ToString();
+            countDown--;
+            if (countDown == (0))
+            {
+                PanelStatus.BackColor = StatoDownRed;
+                // +++++++++++++++++
+                //myRs232.Close();
+                // +++++++++++++++++
+                countDown = 120;
+                MessageBox.Show("Il server ha superato 2 min di pausa quindi è down", "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                tmrSuspend.Stop();
+            }
+        }
+
         private void btnRispristino_Click(object sender, EventArgs e)
         {
             tmrSuspend.Stop();
@@ -87,24 +106,9 @@ namespace WindowsFormsApp1
 
         }
 
-        private void tmrSuspend_Tick(object sender, EventArgs e)
-        {
 
-            //txtCronologia.Text = k.ToString();
-            lblCountDown.Text = countDown.ToString();
-            countDown--;
-            if (countDown == (0))
-            {
-                PanelStatus.BackColor = StatoDownRed;
-                // +++++++++++++++++
-                //myRs232.Close();
-                // +++++++++++++++++
-                MessageBox.Show("Il server ha superato 2 min di pausa quindi è down", "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                tmrSuspend.Stop();
-            }
-        }
 
-        public static Object ExecuteQuery(string query)
+        public Object ExecuteQuery(string query)
         {
             string[] parametro;
             string[] selects;
@@ -202,7 +206,8 @@ namespace WindowsFormsApp1
                 return error;
             }
 
-            elencoInterrogazioni.Add(String.Join(" ", parametro));
+            //elencoInterrogazioni.Add(String.Join(" ", parametro));
+            lblCronologia.Items.Add((lblCronologia.Items.Count + 1).ToString() + ") " + String.Join(" ", parametro));
             return output;
         }
 
@@ -223,9 +228,9 @@ namespace WindowsFormsApp1
                         string query = myRs232.ReadExisting().ToString();
                         string a = JsonConvert.SerializeObject(ExecuteQuery(query));
                         myRs232.Write(a);
-                        txtCronologia.Clear();
-                        foreach (string dato in elencoInterrogazioni)
-                            txtCronologia.Text += dato + "\r\n";
+                        //txtCronologia.Clear();
+                        //foreach (string dato in elencoInterrogazioni)
+                        //    txtCronologia.Text += dato + "\r\n";
                     }
                 }
             }
