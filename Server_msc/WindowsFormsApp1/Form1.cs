@@ -79,7 +79,7 @@ namespace WindowsFormsApp1
             tmrRicevi.Start();
         }
 
-        string a = "";
+        //string a = "";
         private void srlPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             //a += myRs232.ReadExisting();
@@ -96,6 +96,9 @@ namespace WindowsFormsApp1
             if (countDown == (0))
             {
                 PanelStatus.BackColor = StatoDownRed;
+                // +++++++++++++++++
+                //myRs232.Close();
+                // +++++++++++++++++
                 MessageBox.Show("Il server ha superato 2 min di pausa quindi è down", "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 tmrSuspend.Stop();
             }

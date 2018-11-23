@@ -20,8 +20,9 @@ namespace ClientServer_smc
         Object result;
         //DataTable resultA;
         //DataTable resultI;
-        public static bool tabA;
-        public static bool tabI;
+        //public static bool tabA;
+        //public static bool tabI;
+        string query;
 
         public frmMain()
         {
@@ -40,7 +41,7 @@ namespace ClientServer_smc
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            txtQuery.Clear();
+            txtInsertQuery.Clear();
 
         }
 
@@ -48,11 +49,12 @@ namespace ClientServer_smc
         private void btnQuery_Click(object sender, EventArgs e)
         {
 
-            string query = txtQuery.Text;
+            query = txtInsertQuery.Text;
 
             myRs232.WriteLine(query);
 
-            txtResult.Clear();
+            //txtResult.Clear();
+            lstQueryList.Items.Add((lstQueryList.Items.Count + 1).ToString() + ") " + query);
             tmrResult.Start();
 
 
@@ -75,16 +77,23 @@ namespace ClientServer_smc
             if (myRs232.BytesToRead > 0)
             {
                 string inBuffer = myRs232.ReadExisting().ToString();
-                txtResult.Text += inBuffer;                 //Visualizza nella tabella Result il Jason ricevuto
+                //Visualizza nella tabella Result il Jason ricevuto
 
                 try
                 {
                     result = JsonConvert.DeserializeObject<DataTable>(inBuffer);
+                    frmResult frm_Result = new frmResult();
+                    frm_Result.SetTable((DataTable)result, query);
+                    frm_Result.Show();
                 }
                 catch
                 {
                     MessageBox.Show(inBuffer, "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
+                
+                
+
                 //if (result.TableName.ToUpper() == "ALLIEVI")
                 //    tabA = true;
                 //else if (result.TableName.ToUpper() == "INSEGNANTI")
