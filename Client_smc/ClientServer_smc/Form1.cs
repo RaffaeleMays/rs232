@@ -16,27 +16,28 @@ namespace ClientServer_smc
 {
     public partial class frmMain : Form
     {
+        #region Globals
         MyRs232 myRs232;
         Object result;
+        string query;
         //DataTable resultA;
         //DataTable resultI;
         //public static bool tabA;
         //public static bool tabI;
-        string query;
+        #endregion
 
         public frmMain()
         {
             InitializeComponent();
 
         }
-        
+
         private void frmMain_Load(object sender, EventArgs e)
         {
             result = new Object();
             myRs232 = new MyRs232();
             myRs232.NewOpen();
-            
-            
+
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -48,34 +49,18 @@ namespace ClientServer_smc
         // Buffer di output
         private void btnQuery_Click(object sender, EventArgs e)
         {
-
             query = txtInsertQuery.Text;
-
             myRs232.WriteLine(query);
-
+            tmrResult.Start();
             //txtResult.Clear();
             //lstQueryList.Items.Add((lstQueryList.Items.Count + 1).ToString() + ") " + query);
-            tmrResult.Start();
-
-
             //myRs232.Write("ciao");
-        }
-
-
-        private void srlPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            // QUI SI DESERIALIZZA (trasformare il json in una classe) IL MESSAGGIO RICEVUTO
-
-            //object ritorno = JsonConvert.DeserializeObject(/*Inserire la stringa di tipo json vedi sopra es.queryJSON*/);
-            //txtQuery.Text = (string)ritorno;
-            
-
         }
 
         private void tmrResult_Tick(object sender, EventArgs e)
         {
             if (myRs232.BytesToRead > 0)
-            {                
+            {
                 string inBuffer = myRs232.ReadExisting().ToString();
                 //Visualizza nella tabella Result il Jason ricevuto
 
@@ -92,8 +77,8 @@ namespace ClientServer_smc
                     MessageBox.Show(inBuffer, "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                
-                
+
+
 
                 //if (result.TableName.ToUpper() == "ALLIEVI")
                 //    tabA = true;

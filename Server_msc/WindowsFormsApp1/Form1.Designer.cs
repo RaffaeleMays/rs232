@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.PanelStatus = new System.Windows.Forms.Panel();
+            this.PnlStatus = new System.Windows.Forms.Panel();
             this.lblStatus = new System.Windows.Forms.Label();
             this.grbStato = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -52,13 +52,13 @@
             this.grbComandi.SuspendLayout();
             this.SuspendLayout();
             // 
-            // PanelStatus
+            // PnlStatus
             // 
-            this.PanelStatus.Location = new System.Drawing.Point(206, 45);
-            this.PanelStatus.Margin = new System.Windows.Forms.Padding(4);
-            this.PanelStatus.Name = "PanelStatus";
-            this.PanelStatus.Size = new System.Drawing.Size(40, 22);
-            this.PanelStatus.TabIndex = 0;
+            this.PnlStatus.Location = new System.Drawing.Point(206, 45);
+            this.PnlStatus.Margin = new System.Windows.Forms.Padding(4);
+            this.PnlStatus.Name = "PnlStatus";
+            this.PnlStatus.Size = new System.Drawing.Size(40, 22);
+            this.PnlStatus.TabIndex = 0;
             // 
             // lblStatus
             // 
@@ -81,7 +81,7 @@
             this.grbStato.Controls.Add(this.label1);
             this.grbStato.Controls.Add(this.pnlDown);
             this.grbStato.Controls.Add(this.lblStatus);
-            this.grbStato.Controls.Add(this.PanelStatus);
+            this.grbStato.Controls.Add(this.PnlStatus);
             this.grbStato.Controls.Add(this.pnlSuspend);
             this.grbStato.Controls.Add(this.pnlUp);
             this.grbStato.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -150,7 +150,7 @@
             // 
             // pnlUp
             // 
-            this.pnlUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.pnlUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.pnlUp.Location = new System.Drawing.Point(374, 26);
             this.pnlUp.Margin = new System.Windows.Forms.Padding(4);
             this.pnlUp.Name = "pnlUp";
@@ -159,6 +159,7 @@
             // 
             // btnAvvia
             // 
+            this.btnAvvia.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAvvia.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAvvia.Location = new System.Drawing.Point(37, 37);
             this.btnAvvia.Margin = new System.Windows.Forms.Padding(4);
@@ -168,9 +169,12 @@
             this.btnAvvia.Text = "Avvia";
             this.btnAvvia.UseVisualStyleBackColor = true;
             this.btnAvvia.Click += new System.EventHandler(this.btnAvvia_Click);
+            this.btnAvvia.MouseEnter += new System.EventHandler(this.btnAvvia_MouseEnter);
+            this.btnAvvia.MouseLeave += new System.EventHandler(this.btnAvvia_MouseLeave);
             // 
             // btnSospendi
             // 
+            this.btnSospendi.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSospendi.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSospendi.Location = new System.Drawing.Point(219, 37);
             this.btnSospendi.Margin = new System.Windows.Forms.Padding(4);
@@ -180,9 +184,12 @@
             this.btnSospendi.Text = "Sospendi";
             this.btnSospendi.UseVisualStyleBackColor = true;
             this.btnSospendi.Click += new System.EventHandler(this.btnSospendi_Click);
+            this.btnSospendi.MouseEnter += new System.EventHandler(this.btnSospendi_MouseEnter);
+            this.btnSospendi.MouseLeave += new System.EventHandler(this.btnSospendi_MouseLeave);
             // 
             // btnRispristino
             // 
+            this.btnRispristino.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRispristino.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRispristino.Location = new System.Drawing.Point(416, 37);
             this.btnRispristino.Margin = new System.Windows.Forms.Padding(4);
@@ -192,6 +199,8 @@
             this.btnRispristino.Text = "Ripristina";
             this.btnRispristino.UseVisualStyleBackColor = true;
             this.btnRispristino.Click += new System.EventHandler(this.btnRispristino_Click);
+            this.btnRispristino.MouseEnter += new System.EventHandler(this.btnRispristino_MouseEnter);
+            this.btnRispristino.MouseLeave += new System.EventHandler(this.btnRispristino_MouseLeave);
             // 
             // grbComandi
             // 
@@ -225,17 +234,13 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft JhengHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(11, 226);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(178, 22);
+            this.label4.Size = new System.Drawing.Size(159, 19);
             this.label4.TabIndex = 8;
             this.label4.Text = "Cronologia Comandi ";
-            // 
-            // srlPort1
-            // 
-            this.srlPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.srlPort1_DataReceived);
             // 
             // tmrSuspend
             // 
@@ -262,6 +267,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Azure;
             this.ClientSize = new System.Drawing.Size(581, 396);
             this.Controls.Add(this.lblCronologia);
             this.Controls.Add(this.label4);
@@ -282,7 +288,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel PanelStatus;
+        private System.Windows.Forms.Panel PnlStatus;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.GroupBox grbStato;
         private System.Windows.Forms.Label label3;

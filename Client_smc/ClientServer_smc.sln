@@ -5,6 +5,13 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientServer_smc", "ClientServer_smc\ClientServer_smc.csproj", "{1EF066E3-95BD-444E-B7A9-2F2BB5177408}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OldTable", "OldTable", "{75D05A57-0CE6-4756-8A0F-87DA3739D2D5}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\Lele\Desktop\Client_smc\ClientServer_smc\Form2.cs = C:\Users\Lele\Desktop\Client_smc\ClientServer_smc\Form2.cs
+		C:\Users\Lele\Desktop\Client_smc\ClientServer_smc\Form2.Designer.cs = C:\Users\Lele\Desktop\Client_smc\ClientServer_smc\Form2.Designer.cs
+		C:\Users\Lele\Desktop\Client_smc\ClientServer_smc\Form2.resx = C:\Users\Lele\Desktop\Client_smc\ClientServer_smc\Form2.resx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

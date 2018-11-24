@@ -47,9 +47,9 @@ namespace WindowsFormsApp1
             //elencoInterrogazioni = new List<string>();
             elencoDB.Add(dbIsii);
             elencoDB.Add(dbTramello);
-            PanelStatus.BackColor = StatoDownRed;
+            PnlStatus.BackColor = StatoDownRed;
             StatusServer = false;
-            countDown = 120;
+            countDown = 10;
 
             lblCountDown.Text = "";
             tmrRicevi.Start();
@@ -57,37 +57,32 @@ namespace WindowsFormsApp1
 
         private void btnAvvia_Click(object sender, EventArgs e)
         {
-            PanelStatus.BackColor = StatoUpGreen;
+            PnlStatus.BackColor = StatoUpGreen;
             StatusServer = true;
             tmrSuspend.Stop();
-            //txtCronologia.Text =  myRs232.ReadExisting().ToString();
-            //tmrRicevi.Start();
+            
         }
 
         private void btnSospendi_Click(object sender, EventArgs e)
         {
-            PanelStatus.BackColor = StatoSuspendYellow;
-            lblCountDown.Text = countDown.ToString();
+            PnlStatus.BackColor = StatoSuspendYellow;
+            //lblCountDown.Text = countDown.ToString();
             StatusServer = false;
             tmrSuspend.Start();
             //tmrRicevi.Stop();
-
         }
 
         private void tmrSuspend_Tick(object sender, EventArgs e)
         {
-
             //txtCronologia.Text = k.ToString();
             lblCountDown.Text = countDown.ToString();
             countDown--;
-            if (countDown == (0))
+            if (countDown == 0)
             {
-                PanelStatus.BackColor = StatoDownRed;
-                // +++++++++++++++++
-                //myRs232.Close();
-                // +++++++++++++++++
+                PnlStatus.BackColor = StatoDownRed;
+                lblCountDown.Text = "";
                 countDown = 120;
-                MessageBox.Show("Il server ha superato 2 min di pausa quindi è down", "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Il server ha superato 2 min di pausa quindi è down", "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);                
                 tmrSuspend.Stop();
             }
         }
@@ -97,16 +92,6 @@ namespace WindowsFormsApp1
             tmrSuspend.Stop();
             tmrRicevi.Start();
         }
-
-        //string a = "";
-        private void srlPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            //a += myRs232.ReadExisting();
-
-
-        }
-
-
 
         public Object ExecuteQuery(string query)
         {
@@ -157,10 +142,10 @@ namespace WindowsFormsApp1
                                                 output.Columns.Add(attributo.ColumnName); // Aggiungo la colonna ad 'output'
                                                 foreach (DataRow record in tab.Rows)
                                                 {
-                                                    tupla.Add(record.ItemArray[cont].ToString());
+                                                    tupla.Add(record.ItemArray[cont].ToString()); // Riempio il nuovo record
 
                                                 }
-                                                tuple.Add(tupla);
+                                                tuple.Add(tupla); // Aggiungo il record alla tabella
                                                 break;
                                             }
                                             cont++;
@@ -171,6 +156,7 @@ namespace WindowsFormsApp1
                                 }
                             }
 
+                            // Algoritmo per riempire la tabella
                             if (tuple.Count > 0)
                             {
                                 for (int y = 0; y < tuple[0].Count; y++)
@@ -183,12 +169,10 @@ namespace WindowsFormsApp1
                                     }
                                     output.Rows.Add(tupla.ToArray());
                                 }
-
                             }
                             break;
                         }
                     }
-
                 }
                 else
                 {
@@ -211,6 +195,17 @@ namespace WindowsFormsApp1
             return output;
         }
 
+        //private void ServerStatusManager(bool ONorOFF)
+        //{
+        //    StatusServer = ONorOFF;
+        //    if (StatusServer)
+        //    {
+        //        PnlStatus.BackColor = Color.Green;
+        //    }
+        //    else
+        //        PnlStatus.BackColor = Color.Red;
+        //}
+
         private void tmrRicevi_Tick(object sender, EventArgs e)
         {
             //Scorrere la lista con le query e scriverla
@@ -223,7 +218,7 @@ namespace WindowsFormsApp1
                 }
                 else
                 {
-                    if (myRs232.BytesToRead > 0)
+                    if (myRs232.BytesToRead > 0) // Se ho qualche richiesta la leggo
                     {
                         string query = myRs232.ReadExisting().ToString();
                         string a = JsonConvert.SerializeObject(ExecuteQuery(query));
@@ -234,6 +229,36 @@ namespace WindowsFormsApp1
                     }
                 }
             }
+        }
+
+        private void btnAvvia_MouseEnter(object sender, EventArgs e)
+        {
+            btnAvvia.BackColor = Color.LightGreen;
+        }
+
+        private void btnAvvia_MouseLeave(object sender, EventArgs e)
+        {
+            btnAvvia.BackColor = this.BackColor;
+        }
+
+        private void btnSospendi_MouseEnter(object sender, EventArgs e)
+        {
+            btnSospendi.BackColor = Color.LightYellow;
+        }
+
+        private void btnSospendi_MouseLeave(object sender, EventArgs e)
+        {
+            btnSospendi.BackColor = this.BackColor;
+        }
+
+        private void btnRispristino_MouseEnter(object sender, EventArgs e)
+        {
+            btnRispristino.BackColor = Color.LightBlue;
+        }
+
+        private void btnRispristino_MouseLeave(object sender, EventArgs e)
+        {
+            btnRispristino.BackColor = this.BackColor;
         }
 
 
