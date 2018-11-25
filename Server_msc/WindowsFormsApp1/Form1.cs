@@ -22,7 +22,7 @@ namespace WindowsFormsApp1
         #endregion
 
         #region Globals
-        private static bool StatusServer;
+        //private static bool StatusServer;
         public static MyRs232c myRs232;
         //public static List<string> elencoInterrogazioni;
         private static int countDown;
@@ -50,8 +50,9 @@ namespace WindowsFormsApp1
             elencoDB.Add(dbIsii);
             elencoDB.Add(dbTramello);
 
+            btnSospendi.Enabled = false;
             PnlStatus.BackColor = StatoDownRed;
-            StatusServer = false;
+            //StatusServer = false;
             countDown = 120;
             rdbDown.Checked = true;
             grbComandi.Enabled = false;
@@ -62,7 +63,9 @@ namespace WindowsFormsApp1
         private void btnAvvia_Click(object sender, EventArgs e)
         {
             PnlStatus.BackColor = StatoUpGreen;
-            StatusServer = true;
+            //StatusServer = true;
+            btnSospendi.Enabled = true;
+            myRs232.RtsEnable = true;
             tmrSuspend.Stop();
             lblCountDown.Text = "";
 
@@ -72,7 +75,8 @@ namespace WindowsFormsApp1
         {
             PnlStatus.BackColor = StatoSuspendYellow;
             //lblCountDown.Text = countDown.ToString();
-            StatusServer = false;
+            //StatusServer = false;
+            myRs232.RtsEnable = false;
             tmrSuspend.Start();
             //tmrRicevi.Stop();
         }
@@ -85,6 +89,7 @@ namespace WindowsFormsApp1
             if (countDown == 0)
             {
                 PnlStatus.BackColor = StatoDownRed;
+                myRs232.DtrEnable = false;             
                 lblCountDown.Text = "";
                 countDown = 120;
                 MessageBox.Show("Il server ha superato 2 min di pausa quindi è down", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -97,6 +102,7 @@ namespace WindowsFormsApp1
             tmrSuspend.Stop();
             tmrRicevi.Start();
             PnlStatus.BackColor = StatoUpGreen;
+            btnSospendi.Enabled = true;
         }
 
         private Object ExecuteQuery(string query)
@@ -105,7 +111,6 @@ namespace WindowsFormsApp1
             string[] selects;
             string use_Need;
             string from_Need;
-            string error;
             DataTable output = new DataTable();
             List<string> tupla;
             List<List<string>> tuple = new List<List<string>>();
@@ -114,13 +119,16 @@ namespace WindowsFormsApp1
 
 
 
-            if (query.ToUpper().Contains("USE") && query.ToUpper().Contains("SELECT") && query.ToUpper().Contains("FROM"))
+            //if (query.ToUpper().Contains("USE") && query.ToUpper().Contains("SELECT") && query.ToUpper().Contains("FROM"))
+            //{
+            parametro = query.Split(' ');
+            //if (parametro[0].ToUpper() == "USE" && parametro[2].ToUpper() == "SELECT" & parametro[4].ToUpper() == "FROM")
+            //{
+            if (parametro.Length == 6)
             {
-                parametro = query.Split(' ');
-                //if (parametro[0].ToUpper() == "USE" && parametro[2].ToUpper() == "SELECT" & parametro[4].ToUpper() == "FROM")
-                //{
-                if (parametro.Length == 6)
+                if (parametro[0].ToUpper() == "USE" && parametro[2].ToUpper() == "SELECT" && parametro[4].ToUpper() == "FROM")
                 {
+
                     use_Need = parametro[1];
                     from_Need = parametro[5].Substring(0, parametro[5].IndexOf("\n"));
 
@@ -182,35 +190,20 @@ namespace WindowsFormsApp1
                 }
                 else
                 {
-                    //error[0, 1] = "Sintassi non corretta";
-                    //return error;
-                    error = "\"Sintassi non corretta\"";
-                    return error;
+                   return "\"Necessarie la clausole 'USE', 'SELECT' e 'FROM'\"";
+                    
                 }
             }
             else
             {
-                //error[0, 1] = "Necessarie la clausole 'USE', 'SELECT' e 'FROM'";
-                //return error;
-                error = "\"Necessarie la clausole 'USE', 'SELECT' e 'FROM'\"";
-                return error;
+                return "\"Sintassi non corretta\"";
+                
             }
 
             //elencoInterrogazioni.Add(String.Join(" ", parametro));
             lblCronologia.Items.Add((lblCronologia.Items.Count + 1).ToString() + ") " + String.Join(" ", parametro));
             return output;
         }
-
-        //private void ServerStatusManager(bool ONorOFF)
-        //{
-        //    StatusServer = ONorOFF;
-        //    if (StatusServer)
-        //    {
-        //        PnlStatus.BackColor = Color.Green;
-        //    }
-        //    else
-        //        PnlStatus.BackColor = Color.Red;
-        //}
 
         private void tmrRicevi_Tick(object sender, EventArgs e)
         {
@@ -220,23 +213,21 @@ namespace WindowsFormsApp1
                 {
                     if (myRs232.BytesToRead > 0)
                     {
-                        if (StatusServer == false)
-                        {
-                            myRs232.Write("\"Il server non e' al momento disponibile\"");
-                            myRs232.DiscardInBuffer();
-                        }
-                        else
-                        {
-                            if (myRs232.BytesToRead > 0) // Se ho qualche richiesta la leggo
-                            {
-                                string query = myRs232.ReadExisting().ToString();
-                                string a = JsonConvert.SerializeObject(ExecuteQuery(query));
-                                myRs232.Write(a);
-                                //txtCronologia.Clear();
-                                //foreach (string dato in elencoInterrogazioni)
-                                //    txtCronologia.Text += dato + "\r\n";
-                            }
-                        }
+                        //if (StatusServer == false)
+                        //{
+                        //    //myRs232.Write("\"Il server non e' al momento disponibile\"");
+                        //    myRs232.RtsEnable = false;
+                        //    //myRs232.DiscardInBuffer();
+                        //}
+                        //else
+                        //{                            
+                        string query = myRs232.ReadExisting().ToString();
+                        string a = JsonConvert.SerializeObject(ExecuteQuery(query));
+                        myRs232.Write(a);
+                        //txtCronologia.Clear();
+                        //foreach (string dato in elencoInterrogazioni)
+                        //    txtCronologia.Text += dato + "\r\n";                            
+                        //}
                     }
                 }
             }
@@ -290,14 +281,16 @@ namespace WindowsFormsApp1
                 myRs232.NewOpen();
                 if (myRs232.IsOpen)
                 {
+                    myRs232.DtrEnable = false;
                     grbComandi.Enabled = true;
                     rdbUp.Checked = true;
                 }
             }
             catch
             {
-                MessageBox.Show("Impossibile connettersi alla porta " + cmbCOMPorts.Text, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Impossibile connettersi alla porta " + cmbCOMPorts.Text, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 grbComandi.Enabled = false;
+                PnlStatus.BackColor = StatoDownRed;
             }
             //}
         }

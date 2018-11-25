@@ -52,21 +52,25 @@ namespace ClientServer_smc
 
         }
 
-        // Buffer di output
         private void btnQuery_Click(object sender, EventArgs e)
         {
-            query = txtInsertQuery.Text;
-            //if (connection)
-            //{
-            myRs232.WriteLine(query);
-            tmrResult.Start();
+            if (myRs232.CtsHolding == true)
+            {
+                query = txtInsertQuery.Text;
+                //if (connection)
+                //{
+                myRs232.WriteLine(query);
+                tmrResult.Start();
+            }
+            else
+                MessageBox.Show("Il server non e' al momento disponibile", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             //}
             //else
             //MessageBox.Show("Connettersi prima ad una porta seriale", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            //txtResult.Clear();
-            //lstQueryList.Items.Add((lstQueryList.Items.Count + 1).ToString() + ") " + query);
-            //myRs232.Write("ciao");
+                //txtResult.Clear();
+                //lstQueryList.Items.Add((lstQueryList.Items.Count + 1).ToString() + ") " + query);
+                //myRs232.Write("ciao");
         }
 
         private void tmrResult_Tick(object sender, EventArgs e)
