@@ -40,7 +40,9 @@ namespace WindowsFormsApp1
         private void frmMainServer_Load(object sender, EventArgs e)
         {
             myRs232 = new MyRs232c();
-            myRs232.NewOpen();
+            for (int i = 0; i < SerialPort.GetPortNames().Length; i++)
+                cmbCOMPorts.Items.Add(SerialPort.GetPortNames()[i]);
+            //myRs232.NewOpen();
             elencoDB = new List<Database>();
             dbIsii = new Database("ISII");
             dbTramello = new Database("Tramello");
@@ -50,6 +52,8 @@ namespace WindowsFormsApp1
             PnlStatus.BackColor = StatoDownRed;
             StatusServer = false;
             countDown = 10;
+
+            
 
             lblCountDown.Text = "";
             tmrRicevi.Start();
@@ -208,24 +212,26 @@ namespace WindowsFormsApp1
 
         private void tmrRicevi_Tick(object sender, EventArgs e)
         {
-            //Scorrere la lista con le query e scriverla
-            if (myRs232.BytesToRead > 0)
+            if(myRs232.IsOpen)
             {
-                if (StatusServer == false)
+                if (myRs232.BytesToRead > 0)
                 {
-                    myRs232.Write("\"Il server non e' al momento disponibile\"");
-                    myRs232.DiscardInBuffer();
-                }
-                else
-                {
-                    if (myRs232.BytesToRead > 0) // Se ho qualche richiesta la leggo
+                    if (StatusServer == false)
                     {
-                        string query = myRs232.ReadExisting().ToString();
-                        string a = JsonConvert.SerializeObject(ExecuteQuery(query));
-                        myRs232.Write(a);
-                        //txtCronologia.Clear();
-                        //foreach (string dato in elencoInterrogazioni)
-                        //    txtCronologia.Text += dato + "\r\n";
+                        myRs232.Write("\"Il server non e' al momento disponibile\"");
+                        myRs232.DiscardInBuffer();
+                    }
+                    else
+                    {
+                        if (myRs232.BytesToRead > 0) // Se ho qualche richiesta la leggo
+                        {
+                            string query = myRs232.ReadExisting().ToString();
+                            string a = JsonConvert.SerializeObject(ExecuteQuery(query));
+                            myRs232.Write(a);
+                            //txtCronologia.Clear();
+                            //foreach (string dato in elencoInterrogazioni)
+                            //    txtCronologia.Text += dato + "\r\n";
+                        }
                     }
                 }
             }
@@ -253,7 +259,7 @@ namespace WindowsFormsApp1
 
         private void btnRispristino_MouseEnter(object sender, EventArgs e)
         {
-            btnRispristino.BackColor = Color.LightBlue;
+            btnRispristino.BackColor = Color.CornflowerBlue;
         }
 
         private void btnRispristino_MouseLeave(object sender, EventArgs e)
@@ -261,6 +267,33 @@ namespace WindowsFormsApp1
             btnRispristino.BackColor = this.BackColor;
         }
 
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            if (myRs232.PortName != cmbCOMPorts.Text)
+            {
+                rdbDown.Checked = true;
+                myRs232.Close();
+                try
+                {
+                    myRs232.NewOpen(cmbCOMPorts.Text);
+                    if (myRs232.IsOpen)
+                        rdbUp.Checked = true;
+                }
+                catch
+                {
+                    MessageBox.Show("Impossibile connettersi alla porta " + cmbCOMPorts.Text, "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
 
+        private void btnConnect_MouseEnter(object sender, EventArgs e)
+        {
+            btnConnect.BackColor = Color.LightPink;
+        }
+
+        private void btnConnect_MouseLeave(object sender, EventArgs e)
+        {
+            btnConnect.BackColor = this.BackColor;
+        }
     }
 }

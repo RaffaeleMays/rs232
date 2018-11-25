@@ -41,7 +41,7 @@
             this.dgvQuery.BackgroundColor = System.Drawing.Color.White;
             this.dgvQuery.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQuery.Location = new System.Drawing.Point(13, 37);
-            this.dgvQuery.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvQuery.Margin = new System.Windows.Forms.Padding(4);
             this.dgvQuery.Name = "dgvQuery";
             this.dgvQuery.Size = new System.Drawing.Size(644, 242);
             this.dgvQuery.TabIndex = 0;
@@ -66,7 +66,7 @@
             this.ClientSize = new System.Drawing.Size(670, 292);
             this.Controls.Add(this.lblQuery);
             this.Controls.Add(this.dgvQuery);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmResult";
             this.Text = "Result";
             this.Load += new System.EventHandler(this.frmResult_Load);

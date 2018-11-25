@@ -27,9 +27,12 @@ namespace ClientServer_smc {
 
         }
 
-        public void NewOpen() {
+        public void NewOpen(string port_Name) {
+            PortName = port_Name;
             if (!this.IsOpen)
+            {
                 this.Open();
+            }
         }
 
     }

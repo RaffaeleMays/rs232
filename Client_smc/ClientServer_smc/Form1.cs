@@ -20,6 +20,7 @@ namespace ClientServer_smc
         MyRs232 myRs232;
         Object result;
         string query;
+        bool connection;
         //DataTable resultA;
         //DataTable resultI;
         //public static bool tabA;
@@ -36,7 +37,11 @@ namespace ClientServer_smc
         {
             result = new Object();
             myRs232 = new MyRs232();
-            myRs232.NewOpen();
+            connection = false;
+            for (int i = 0; i < SerialPort.GetPortNames().Length; i++)
+                cmbCOMPorts.Items.Add(SerialPort.GetPortNames()[i]);
+            rdbDown.Checked = true;
+            //myRs232.NewOpen();
 
         }
 
@@ -50,8 +55,14 @@ namespace ClientServer_smc
         private void btnQuery_Click(object sender, EventArgs e)
         {
             query = txtInsertQuery.Text;
-            myRs232.WriteLine(query);
-            tmrResult.Start();
+            if (connection)
+            {
+                myRs232.WriteLine(query);
+                tmrResult.Start();
+            }
+            else
+                MessageBox.Show("Connettersi prima ad una porta seriale", "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
             //txtResult.Clear();
             //lstQueryList.Items.Add((lstQueryList.Items.Count + 1).ToString() + ") " + query);
             //myRs232.Write("ciao");
@@ -100,6 +111,24 @@ namespace ClientServer_smc
 
                 //frmTables.Collegamento(result, tabA, tabI); // invia il datattable all'altra form e inserisce le bool o di allievo o di insegnante cosi poi le distingue nel datagridview
 
+            }
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            if (myRs232.PortName != cmbCOMPorts.Text)
+            {
+                rdbDown.Checked = true;
+                myRs232.Close();
+                try
+                {
+                    myRs232.NewOpen(cmbCOMPorts.Text);
+                    if (myRs232.IsOpen)
+                        rdbUp.Checked = true;
+                }
+                catch {
+                    MessageBox.Show("Impossibile connettersi alla porta " + cmbCOMPorts.Text, "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
         }
     }
