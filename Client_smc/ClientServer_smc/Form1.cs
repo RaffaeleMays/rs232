@@ -20,7 +20,7 @@ namespace ClientServer_smc
         MyRs232 myRs232;
         Object result;
         string query;
-        bool connection;
+        //bool connection;
         //DataTable resultA;
         //DataTable resultI;
         //public static bool tabA;
@@ -36,12 +36,13 @@ namespace ClientServer_smc
         private void frmMain_Load(object sender, EventArgs e)
         {
             result = new Object();
-            myRs232 = new MyRs232();
-            connection = false;
+            //myRs232 = new MyRs232();
+            //connection = false;
             for (int i = 0; i < SerialPort.GetPortNames().Length; i++)
                 cmbCOMPorts.Items.Add(SerialPort.GetPortNames()[i]);
             rdbDown.Checked = true;
             //myRs232.NewOpen();
+            grpQuery.Enabled = false;
 
         }
 
@@ -55,13 +56,13 @@ namespace ClientServer_smc
         private void btnQuery_Click(object sender, EventArgs e)
         {
             query = txtInsertQuery.Text;
-            if (connection)
-            {
-                myRs232.WriteLine(query);
-                tmrResult.Start();
-            }
-            else
-                MessageBox.Show("Connettersi prima ad una porta seriale", "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //if (connection)
+            //{
+            myRs232.WriteLine(query);
+            tmrResult.Start();
+            //}
+            //else
+            //MessageBox.Show("Connettersi prima ad una porta seriale", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             //txtResult.Clear();
             //lstQueryList.Items.Add((lstQueryList.Items.Count + 1).ToString() + ") " + query);
@@ -85,7 +86,7 @@ namespace ClientServer_smc
                 }
                 catch
                 {
-                    MessageBox.Show(inBuffer, "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(inBuffer, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
 
@@ -116,20 +117,31 @@ namespace ClientServer_smc
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            if (myRs232.PortName != cmbCOMPorts.Text)
+            //if (myRs232.PortName != cmbCOMPorts.Text)
+            //{
+            try
             {
-                rdbDown.Checked = true;
                 myRs232.Close();
-                try
+            }
+            catch { }
+            rdbDown.Checked = true;
+
+            try
+            {
+                myRs232 = new MyRs232(cmbCOMPorts.Text);
+                myRs232.NewOpen();
+                if (myRs232.IsOpen)
                 {
-                    myRs232.NewOpen(cmbCOMPorts.Text);
-                    if (myRs232.IsOpen)
-                        rdbUp.Checked = true;
-                }
-                catch {
-                    MessageBox.Show("Impossibile connettersi alla porta " + cmbCOMPorts.Text, "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    grpQuery.Enabled = true;
+                    rdbUp.Checked = true;
                 }
             }
+            catch
+            {
+                MessageBox.Show("Impossibile connettersi alla porta " + cmbCOMPorts.Text, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                grpQuery.Enabled = false;
+            }
+            //}
         }
     }
 }

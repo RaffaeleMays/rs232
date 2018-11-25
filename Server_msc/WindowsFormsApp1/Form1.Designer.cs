@@ -47,21 +47,21 @@
             this.tmrSuspend = new System.Windows.Forms.Timer(this.components);
             this.tmrRicevi = new System.Windows.Forms.Timer(this.components);
             this.lblCronologia = new System.Windows.Forms.ListBox();
-            this.grpCronologia = new System.Windows.Forms.GroupBox();
+            this.grbCronologia = new System.Windows.Forms.GroupBox();
             this.grbConnect = new System.Windows.Forms.GroupBox();
-            this.cmbCOMPorts = new System.Windows.Forms.ComboBox();
-            this.btnConnect = new System.Windows.Forms.Button();
-            this.rdbUp = new System.Windows.Forms.RadioButton();
             this.rdbDown = new System.Windows.Forms.RadioButton();
+            this.rdbUp = new System.Windows.Forms.RadioButton();
+            this.btnConnect = new System.Windows.Forms.Button();
+            this.cmbCOMPorts = new System.Windows.Forms.ComboBox();
             this.grbStato.SuspendLayout();
             this.grbComandi.SuspendLayout();
-            this.grpCronologia.SuspendLayout();
+            this.grbCronologia.SuspendLayout();
             this.grbConnect.SuspendLayout();
             this.SuspendLayout();
             // 
             // PnlStatus
             // 
-            this.PnlStatus.Location = new System.Drawing.Point(206, 45);
+            this.PnlStatus.Location = new System.Drawing.Point(203, 42);
             this.PnlStatus.Margin = new System.Windows.Forms.Padding(4);
             this.PnlStatus.Name = "PnlStatus";
             this.PnlStatus.Size = new System.Drawing.Size(40, 22);
@@ -255,15 +255,15 @@
             this.lblCronologia.Size = new System.Drawing.Size(541, 124);
             this.lblCronologia.TabIndex = 9;
             // 
-            // grpCronologia
+            // grbCronologia
             // 
-            this.grpCronologia.Controls.Add(this.lblCronologia);
-            this.grpCronologia.Location = new System.Drawing.Point(13, 302);
-            this.grpCronologia.Name = "grpCronologia";
-            this.grpCronologia.Size = new System.Drawing.Size(556, 165);
-            this.grpCronologia.TabIndex = 10;
-            this.grpCronologia.TabStop = false;
-            this.grpCronologia.Text = "Cronologia";
+            this.grbCronologia.Controls.Add(this.lblCronologia);
+            this.grbCronologia.Location = new System.Drawing.Point(13, 302);
+            this.grbCronologia.Name = "grbCronologia";
+            this.grbCronologia.Size = new System.Drawing.Size(556, 165);
+            this.grbCronologia.TabIndex = 10;
+            this.grbCronologia.TabStop = false;
+            this.grbCronologia.Text = "Cronologia";
             // 
             // grbConnect
             // 
@@ -272,20 +272,34 @@
             this.grbConnect.Controls.Add(this.btnConnect);
             this.grbConnect.Controls.Add(this.cmbCOMPorts);
             this.grbConnect.Font = new System.Drawing.Font("Microsoft JhengHei", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grbConnect.Location = new System.Drawing.Point(19, 12);
+            this.grbConnect.Location = new System.Drawing.Point(13, 12);
             this.grbConnect.Name = "grbConnect";
-            this.grbConnect.Size = new System.Drawing.Size(548, 80);
+            this.grbConnect.Size = new System.Drawing.Size(554, 80);
             this.grbConnect.TabIndex = 11;
             this.grbConnect.TabStop = false;
             this.grbConnect.Text = "Connect";
             // 
-            // cmbCOMPorts
+            // rdbDown
             // 
-            this.cmbCOMPorts.FormattingEnabled = true;
-            this.cmbCOMPorts.Location = new System.Drawing.Point(31, 33);
-            this.cmbCOMPorts.Name = "cmbCOMPorts";
-            this.cmbCOMPorts.Size = new System.Drawing.Size(121, 25);
-            this.cmbCOMPorts.TabIndex = 0;
+            this.rdbDown.AutoSize = true;
+            this.rdbDown.Location = new System.Drawing.Point(429, 33);
+            this.rdbDown.Name = "rdbDown";
+            this.rdbDown.Size = new System.Drawing.Size(69, 22);
+            this.rdbDown.TabIndex = 10;
+            this.rdbDown.TabStop = true;
+            this.rdbDown.Text = "Down";
+            this.rdbDown.UseVisualStyleBackColor = true;
+            // 
+            // rdbUp
+            // 
+            this.rdbUp.AutoSize = true;
+            this.rdbUp.Location = new System.Drawing.Point(368, 33);
+            this.rdbUp.Name = "rdbUp";
+            this.rdbUp.Size = new System.Drawing.Size(48, 22);
+            this.rdbUp.TabIndex = 9;
+            this.rdbUp.TabStop = true;
+            this.rdbUp.Text = "Up";
+            this.rdbUp.UseVisualStyleBackColor = true;
             // 
             // btnConnect
             // 
@@ -302,27 +316,13 @@
             this.btnConnect.MouseEnter += new System.EventHandler(this.btnConnect_MouseEnter);
             this.btnConnect.MouseLeave += new System.EventHandler(this.btnConnect_MouseLeave);
             // 
-            // rdbUp
+            // cmbCOMPorts
             // 
-            this.rdbUp.AutoSize = true;
-            this.rdbUp.Location = new System.Drawing.Point(368, 33);
-            this.rdbUp.Name = "rdbUp";
-            this.rdbUp.Size = new System.Drawing.Size(48, 22);
-            this.rdbUp.TabIndex = 9;
-            this.rdbUp.TabStop = true;
-            this.rdbUp.Text = "Up";
-            this.rdbUp.UseVisualStyleBackColor = true;
-            // 
-            // rdbDown
-            // 
-            this.rdbDown.AutoSize = true;
-            this.rdbDown.Location = new System.Drawing.Point(429, 33);
-            this.rdbDown.Name = "rdbDown";
-            this.rdbDown.Size = new System.Drawing.Size(69, 22);
-            this.rdbDown.TabIndex = 10;
-            this.rdbDown.TabStop = true;
-            this.rdbDown.Text = "Down";
-            this.rdbDown.UseVisualStyleBackColor = true;
+            this.cmbCOMPorts.FormattingEnabled = true;
+            this.cmbCOMPorts.Location = new System.Drawing.Point(31, 33);
+            this.cmbCOMPorts.Name = "cmbCOMPorts";
+            this.cmbCOMPorts.Size = new System.Drawing.Size(121, 25);
+            this.cmbCOMPorts.TabIndex = 0;
             // 
             // frmMainServer
             // 
@@ -331,18 +331,18 @@
             this.BackColor = System.Drawing.Color.Azure;
             this.ClientSize = new System.Drawing.Size(585, 475);
             this.Controls.Add(this.grbConnect);
-            this.Controls.Add(this.grpCronologia);
+            this.Controls.Add(this.grbCronologia);
             this.Controls.Add(this.grbComandi);
             this.Controls.Add(this.grbStato);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMainServer";
-            this.Text = "SERVER.msc";
+            this.Text = "Server";
             this.Load += new System.EventHandler(this.frmMainServer_Load);
             this.grbStato.ResumeLayout(false);
             this.grbStato.PerformLayout();
             this.grbComandi.ResumeLayout(false);
             this.grbComandi.PerformLayout();
-            this.grpCronologia.ResumeLayout(false);
+            this.grbCronologia.ResumeLayout(false);
             this.grbConnect.ResumeLayout(false);
             this.grbConnect.PerformLayout();
             this.ResumeLayout(false);
@@ -369,7 +369,7 @@
         private System.Windows.Forms.Label lblCountDown;
         private System.Windows.Forms.Timer tmrRicevi;
         private System.Windows.Forms.ListBox lblCronologia;
-        private System.Windows.Forms.GroupBox grpCronologia;
+        private System.Windows.Forms.GroupBox grbCronologia;
         private System.Windows.Forms.GroupBox grbConnect;
         private System.Windows.Forms.RadioButton rdbDown;
         private System.Windows.Forms.RadioButton rdbUp;

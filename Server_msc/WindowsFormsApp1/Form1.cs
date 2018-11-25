@@ -39,7 +39,7 @@ namespace WindowsFormsApp1
 
         private void frmMainServer_Load(object sender, EventArgs e)
         {
-            myRs232 = new MyRs232c();
+            //myRs232 = new MyRs232c();
             for (int i = 0; i < SerialPort.GetPortNames().Length; i++)
                 cmbCOMPorts.Items.Add(SerialPort.GetPortNames()[i]);
             //myRs232.NewOpen();
@@ -49,12 +49,12 @@ namespace WindowsFormsApp1
             //elencoInterrogazioni = new List<string>();
             elencoDB.Add(dbIsii);
             elencoDB.Add(dbTramello);
+
             PnlStatus.BackColor = StatoDownRed;
             StatusServer = false;
-            countDown = 10;
-
-            
-
+            countDown = 120;
+            rdbDown.Checked = true;
+            grbComandi.Enabled = false;
             lblCountDown.Text = "";
             tmrRicevi.Start();
         }
@@ -64,7 +64,8 @@ namespace WindowsFormsApp1
             PnlStatus.BackColor = StatoUpGreen;
             StatusServer = true;
             tmrSuspend.Stop();
-            
+            lblCountDown.Text = "";
+
         }
 
         private void btnSospendi_Click(object sender, EventArgs e)
@@ -86,7 +87,7 @@ namespace WindowsFormsApp1
                 PnlStatus.BackColor = StatoDownRed;
                 lblCountDown.Text = "";
                 countDown = 120;
-                MessageBox.Show("Il server ha superato 2 min di pausa quindi è down", "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);                
+                MessageBox.Show("Il server ha superato 2 min di pausa quindi è down", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 tmrSuspend.Stop();
             }
         }
@@ -95,9 +96,10 @@ namespace WindowsFormsApp1
         {
             tmrSuspend.Stop();
             tmrRicevi.Start();
+            PnlStatus.BackColor = StatoUpGreen;
         }
 
-        public Object ExecuteQuery(string query)
+        private Object ExecuteQuery(string query)
         {
             string[] parametro;
             string[] selects;
@@ -212,29 +214,33 @@ namespace WindowsFormsApp1
 
         private void tmrRicevi_Tick(object sender, EventArgs e)
         {
-            if(myRs232.IsOpen)
+            try
             {
-                if (myRs232.BytesToRead > 0)
+                if (myRs232.IsOpen)
                 {
-                    if (StatusServer == false)
+                    if (myRs232.BytesToRead > 0)
                     {
-                        myRs232.Write("\"Il server non e' al momento disponibile\"");
-                        myRs232.DiscardInBuffer();
-                    }
-                    else
-                    {
-                        if (myRs232.BytesToRead > 0) // Se ho qualche richiesta la leggo
+                        if (StatusServer == false)
                         {
-                            string query = myRs232.ReadExisting().ToString();
-                            string a = JsonConvert.SerializeObject(ExecuteQuery(query));
-                            myRs232.Write(a);
-                            //txtCronologia.Clear();
-                            //foreach (string dato in elencoInterrogazioni)
-                            //    txtCronologia.Text += dato + "\r\n";
+                            myRs232.Write("\"Il server non e' al momento disponibile\"");
+                            myRs232.DiscardInBuffer();
+                        }
+                        else
+                        {
+                            if (myRs232.BytesToRead > 0) // Se ho qualche richiesta la leggo
+                            {
+                                string query = myRs232.ReadExisting().ToString();
+                                string a = JsonConvert.SerializeObject(ExecuteQuery(query));
+                                myRs232.Write(a);
+                                //txtCronologia.Clear();
+                                //foreach (string dato in elencoInterrogazioni)
+                                //    txtCronologia.Text += dato + "\r\n";
+                            }
                         }
                     }
                 }
             }
+            catch { }
         }
 
         private void btnAvvia_MouseEnter(object sender, EventArgs e)
@@ -269,21 +275,31 @@ namespace WindowsFormsApp1
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            if (myRs232.PortName != cmbCOMPorts.Text)
+            //if (myRs232.PortName != cmbCOMPorts.Text)
+            //{
+            try
             {
-                rdbDown.Checked = true;
                 myRs232.Close();
-                try
+            }
+            catch { }
+            rdbDown.Checked = true;
+
+            try
+            {
+                myRs232 = new MyRs232c(cmbCOMPorts.Text);
+                myRs232.NewOpen();
+                if (myRs232.IsOpen)
                 {
-                    myRs232.NewOpen(cmbCOMPorts.Text);
-                    if (myRs232.IsOpen)
-                        rdbUp.Checked = true;
-                }
-                catch
-                {
-                    MessageBox.Show("Impossibile connettersi alla porta " + cmbCOMPorts.Text, "Actenction", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    grbComandi.Enabled = true;
+                    rdbUp.Checked = true;
                 }
             }
+            catch
+            {
+                MessageBox.Show("Impossibile connettersi alla porta " + cmbCOMPorts.Text, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                grbComandi.Enabled = false;
+            }
+            //}
         }
 
         private void btnConnect_MouseEnter(object sender, EventArgs e)

@@ -7,9 +7,10 @@ using System.IO.Ports;
 
 namespace ClientServer_smc {
     class MyRs232 : SerialPort {
-        public MyRs232() {
+        public MyRs232(string port_Name) {
 
-            PortName = SerialPort.GetPortNames()[SerialPort.GetPortNames().Length - 1];
+            //PortName = SerialPort.GetPortNames()[SerialPort.GetPortNames().Length - 1];
+            PortName = port_Name;
             BaudRate = 9600;
             Parity = Parity.None;
             DataBits = 8;
@@ -27,8 +28,8 @@ namespace ClientServer_smc {
 
         }
 
-        public void NewOpen(string port_Name) {
-            PortName = port_Name;
+        public void NewOpen() {
+            //PortName = port_Name;
             if (!this.IsOpen)
             {
                 this.Open();
